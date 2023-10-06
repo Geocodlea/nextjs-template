@@ -10,7 +10,7 @@ import sendVerificationRequest from "/utils/sendVerification";
 import dbConnect from "/utils/dbConnect";
 import User from "/models/User";
 
-const authOptions = {
+export const authOptions = {
   adapter: MongoDBAdapter(clientPromise),
   secret: process.env.NEXTAUTH_SECRET,
 
