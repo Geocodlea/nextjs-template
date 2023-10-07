@@ -32,12 +32,13 @@ function DrawerAppBar(props) {
   };
 
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
+  const openMenu = Boolean(anchorEl);
   const handleOpenMenu = (event) => {
-    event.stopPropagation();
+    event.stopPropagation(); // solutin to padding-right to the body
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+  const handleCloseMenu = (event) => {
+    event.stopPropagation(); // solutin to padding-right to the body
     setAnchorEl(null);
   };
 
@@ -52,9 +53,9 @@ function DrawerAppBar(props) {
           <NavItems
             key={item}
             item={item}
-            open={open}
+            openMenu={openMenu}
             handleOpenMenu={handleOpenMenu}
-            handleClose={handleClose}
+            handleCloseMenu={handleCloseMenu}
             anchorEl={anchorEl}
           />
         ))}
@@ -70,7 +71,11 @@ function DrawerAppBar(props) {
       <AppBar
         component="nav"
         sx={{
-          background: "linear-gradient(to right bottom, #755e6f, #cfa8a8)",
+          backgroundImage:
+            "linear-gradient(270deg, rgba(255, 76, 77, 0.35) 0%, rgba(255, 153, 51, 0.35) 12.5%, rgba(255, 191, 0, 0.35) 25%, rgba(38, 217, 127, 0.35) 37.5%, rgba(71, 235, 235, 0.35) 50%, rgba(0, 128, 255, 0.35) 62.5%, rgba(51, 51, 255, 0.35) 75%, rgba(128, 0, 255, 0.35) 87.5%, rgba(237, 94, 201, 0.35) 100%)",
+          backgroundSize: "200% 100%",
+          padding: "8px 16px",
+          backgroundColor: "rgb(13, 13, 13)",
         }}
       >
         <Toolbar>
@@ -91,9 +96,9 @@ function DrawerAppBar(props) {
               <NavItems
                 key={item}
                 item={item}
-                open={open}
+                openMenu={openMenu}
                 handleOpenMenu={handleOpenMenu}
-                handleClose={handleClose}
+                handleCloseMenu={handleCloseMenu}
                 anchorEl={anchorEl}
               />
             ))}
@@ -101,7 +106,7 @@ function DrawerAppBar(props) {
           <IconButton
             color="inherit"
             aria-label="open drawer"
-            edge="end"
+            edge="start"
             onClick={handleDrawerToggle}
             sx={{ ml: "auto", display: { sm: "none" } }}
           >
@@ -124,8 +129,7 @@ function DrawerAppBar(props) {
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
-              background:
-                "linear-gradient(180deg, rgba(246,246,246,1) 97%, rgba(219,219,219,1) 100%)",
+              backgroundColor: "grey.200",
             },
           }}
         >
@@ -141,8 +145,12 @@ export default DrawerAppBar;
 const NavItem = ({ name, link }) => {
   return (
     <Link href={link}>
-      <ListItem disablePadding>
-        <ListItemButton sx={{ textAlign: "center" }}>
+      <ListItem>
+        <ListItemButton
+          sx={{
+            textAlign: "center",
+          }}
+        >
           <ListItemText
             primary={name.charAt(0).toUpperCase() + name.slice(1)}
           />
@@ -152,7 +160,13 @@ const NavItem = ({ name, link }) => {
   );
 };
 
-const NavItems = ({ item, open, handleOpenMenu, handleClose, anchorEl }) => {
+const NavItems = ({
+  item,
+  openMenu,
+  handleOpenMenu,
+  handleCloseMenu,
+  anchorEl,
+}) => {
   const { data: session } = useSession();
 
   if (item === "home") return <NavItem key={item} name={item} link="/" />;
@@ -162,14 +176,17 @@ const NavItems = ({ item, open, handleOpenMenu, handleClose, anchorEl }) => {
         <ListItem key={item} disablePadding>
           <ListItemButton
             onClick={handleOpenMenu}
-            sx={{ justifyContent: "center" }}
+            sx={{
+              justifyContent: "center",
+            }}
           >
             <Avatar alt="avatar" src={session.user.image} />
           </ListItemButton>
           <Menu
+            disableScrollLock={true}
             anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
+            open={openMenu}
+            onClose={handleCloseMenu}
             anchorOrigin={{
               vertical: "bottom", // Align menu's top to the bottom of the button
               horizontal: "center", // Center horizontally with the button
