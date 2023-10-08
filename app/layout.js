@@ -6,7 +6,7 @@ import React from "react";
 
 import AuthProvider from "@/context/AuthProvider";
 
-import DrawerAppBar from "@/components/Appbar";
+import AppBar from "@/components/Appbar";
 import ParallaxBanner from "@/components/ParallaxBanner";
 import Footer from "@/components/Footer";
 
@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <AuthProvider>
-          <DrawerAppBar />
+          <AppBar />
           <ParallaxBanner>
             <Box className={styles.main}>
               <Paper elevation={24} className={styles.content}>
