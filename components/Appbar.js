@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
+import { useState, useEffect } from "react";
 
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
@@ -24,7 +26,7 @@ const drawerWidth = 240;
 const navItems = ["home", "about", "contact", "login"];
 
 function DrawerAppBar(props) {
-  const { window } = props;
+  const { windowAppBar } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
@@ -44,8 +46,10 @@ function DrawerAppBar(props) {
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        <Link href="/">MUI</Link>
+      <Typography sx={{ fontSize: 0 }}>
+        <Link href="/">
+          <Image src="/next.svg" alt="Logo" width={70} height={70} />
+        </Link>
       </Typography>
       <Divider />
       <List>
@@ -64,27 +68,53 @@ function DrawerAppBar(props) {
   );
 
   const container =
-    window !== undefined ? () => window().document.body : undefined;
+    windowAppBar !== undefined ? () => window().document.body : undefined;
+
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY >= window.innerHeight * 0.5) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // Cleanup the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const appBarStyle = {
+    background: isScrolled
+      ? "linear-gradient(90deg, rgba(125,185,184,1) 0%, rgba(91,126,143,1) 50%, rgba(93,100,152,1) 100%)"
+      : "transparent",
+    transition: "background 0.3s",
+    padding: "8px 16px",
+    boxShadow: isScrolled
+      ? "0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)"
+      : "none",
+  };
 
   return (
     <Box sx={{ display: "flex" }}>
-      <AppBar
-        component="nav"
-        sx={{
-          backgroundImage:
-            "linear-gradient(270deg, rgba(255, 76, 77, 0.35) 0%, rgba(255, 153, 51, 0.35) 12.5%, rgba(255, 191, 0, 0.35) 25%, rgba(38, 217, 127, 0.35) 37.5%, rgba(71, 235, 235, 0.35) 50%, rgba(0, 128, 255, 0.35) 62.5%, rgba(51, 51, 255, 0.35) 75%, rgba(128, 0, 255, 0.35) 87.5%, rgba(237, 94, 201, 0.35) 100%)",
-          backgroundSize: "200% 100%",
-          padding: "8px 16px",
-          backgroundColor: "rgb(13, 13, 13)",
-        }}
-      >
+      <AppBar id="appBar" component="nav" style={appBarStyle}>
         <Toolbar>
           <Typography
-            variant="h6"
             component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            sx={{
+              flexGrow: 1,
+              display: { xs: "none", sm: "block" },
+              fontSize: 0,
+            }}
           >
-            <Link href="/">MUI</Link>
+            <Link href="/">
+              <Image src="/vercel.svg" alt="Logo" width={70} height={70} />
+            </Link>
           </Typography>
           <Box
             sx={{
@@ -145,7 +175,7 @@ export default DrawerAppBar;
 const NavItem = ({ name, link }) => {
   return (
     <Link href={link}>
-      <ListItem>
+      <ListItem sx={{ paddingY: 0 }}>
         <ListItemButton
           sx={{
             textAlign: "center",

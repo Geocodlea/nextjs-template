@@ -8,7 +8,7 @@ export default async function Home() {
   return (
     <>
       {session ? (
-        <main className={styles.main}>{session?.user.email}</main>
+        <main className={styles.content}>{session?.user.email}</main>
       ) : (
         <h1 className="text-5xl">NOT LOGGED IN!</h1>
       )}

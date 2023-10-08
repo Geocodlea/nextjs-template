@@ -1,10 +1,17 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
+import styles from "./page.module.css";
+
+import React from "react";
 
 import AuthProvider from "@/context/AuthProvider";
 
 import DrawerAppBar from "@/components/Appbar";
+import ParallaxBanner from "@/components/ParallaxBanner";
 import Footer from "@/components/Footer";
+
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,11 +22,17 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <AuthProvider>
           <DrawerAppBar />
-          {children}
+          <ParallaxBanner>
+            <Box className={styles.main}>
+              <Paper elevation={24} className={styles.content}>
+                {children}
+              </Paper>
+            </Box>
+          </ParallaxBanner>
           <Footer />
         </AuthProvider>
       </body>

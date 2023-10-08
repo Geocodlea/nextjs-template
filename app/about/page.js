@@ -1,8 +1,8 @@
 import styles from "../page.module.css";
 
-export default function Contact() {
+export default function About() {
   return (
-    <main className={styles.code}>
+    <main className={styles.code} style={{ padding: "30px" }}>
       What is Lorem Ipsum? Lorem Ipsum is simply dummy text of the printing and
       typesetting industry. Lorem Ipsum has been the industry's standard dummy
       text ever since the 1500s, when an unknown printer took a galley of type
