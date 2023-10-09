@@ -9,18 +9,16 @@ function ParallaxBanner({ children }) {
   const [offset, setOffset] = useState(0);
   const segment = useSelectedLayoutSegment();
 
-  const imageUrl = `/img/${segment}_bg.jpg`;
-
-  // Function to check if the image file exists
-  function imageExists(url, callback) {
-    const img = new Image();
-    img.onload = function () {
-      callback(true);
-    };
-    img.onerror = function () {
-      callback(false);
-    };
-    img.src = url;
+  let imageUrl;
+  switch (segment) {
+    case "about":
+      imageUrl = "/img/about_bg.jpg";
+      break;
+    case "contact":
+      imageUrl = "/img/contact_bg.jpg";
+      break;
+    default:
+      imageUrl = "/img/bg.jpg";
   }
 
   useEffect(() => {
@@ -30,26 +28,17 @@ function ParallaxBanner({ children }) {
 
     window.addEventListener("scroll", handleScroll);
 
-    // Check if the image exists and set it as the background image
-    imageExists(imageUrl, function (exists) {
-      const banner = document.getElementById("banner");
-      banner.style.backgroundImage = exists
-        ? `url(${imageUrl})`
-        : "url(img/bg.jpg)";
-    });
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [segment]);
+  }, []);
 
   return (
     <>
       <Box
-        id="banner"
         sx={{
           height: "90vh",
-          backgroundImage: `url("/img/bg.jpg")`,
+          backgroundImage: `url(${imageUrl})`,
           transform: `translateY(${offset * 0.5}px)`,
           position: "absolute",
           width: "100%",
