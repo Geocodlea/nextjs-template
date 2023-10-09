@@ -2,38 +2,32 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useSession, signOut } from "next-auth/react";
 import { useState, useEffect } from "react";
 
-import * as React from "react";
 import AppBar from "@mui/material/AppBar";
-import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+
+import NavItems from "./NavItems";
 
 const drawerWidth = 240;
 const navItems = ["home", "about", "contact", "login"];
 
 function DrawerAppBar(props) {
   const { windowAppBar } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const openMenu = Boolean(anchorEl);
   const handleOpenMenu = (event) => {
     event.stopPropagation(); // solutin to padding-right to the body
@@ -171,70 +165,3 @@ function DrawerAppBar(props) {
 }
 
 export default DrawerAppBar;
-
-const NavItem = ({ name, link }) => {
-  return (
-    <Link href={link}>
-      <ListItem sx={{ paddingY: 0 }}>
-        <ListItemButton
-          sx={{
-            textAlign: "center",
-          }}
-        >
-          <ListItemText
-            primary={name.charAt(0).toUpperCase() + name.slice(1)}
-          />
-        </ListItemButton>
-      </ListItem>
-    </Link>
-  );
-};
-
-const NavItems = ({
-  item,
-  openMenu,
-  handleOpenMenu,
-  handleCloseMenu,
-  anchorEl,
-}) => {
-  const { data: session } = useSession();
-
-  if (item === "home") return <NavItem key={item} name={item} link="/" />;
-  else if (item === "login") {
-    if (session) {
-      return (
-        <ListItem key={item} disablePadding>
-          <ListItemButton
-            onClick={handleOpenMenu}
-            sx={{
-              justifyContent: "center",
-            }}
-          >
-            <Avatar alt="avatar" src={session.user.image} />
-          </ListItemButton>
-          <Menu
-            disableScrollLock={true}
-            anchorEl={anchorEl}
-            open={openMenu}
-            onClose={handleCloseMenu}
-            anchorOrigin={{
-              vertical: "bottom", // Align menu's top to the bottom of the button
-              horizontal: "center", // Center horizontally with the button
-            }}
-            transformOrigin={{
-              vertical: "top", // Align menu's top with its own top
-              horizontal: "center", // Center horizontally with its own center
-            }}
-          >
-            <MenuItem>
-              <Link href="/profile">Profile</Link>
-            </MenuItem>
-            <MenuItem onClick={() => signOut()}>Sign Out</MenuItem>
-          </Menu>
-        </ListItem>
-      );
-    } else {
-      return <NavItem key={item} name={item} link="/api/auth/signin" />;
-    }
-  } else return <NavItem key={item} name={item} link={item} />;
-};
