@@ -17,6 +17,9 @@ function ParallaxBanner({ children }) {
     case "contact":
       imageUrl = "/img/contact_bg.jpg";
       break;
+    case "profile":
+      imageUrl = "/img/profile_bg.jpg";
+      break;
     default:
       imageUrl = "/img/bg.jpg";
   }
