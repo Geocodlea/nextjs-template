@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import Box from "@mui/material/Box";
 
+import { useState, useEffect } from "react";
 import { useSelectedLayoutSegment } from "next/navigation";
 import Image from "next/image";
 import bg from "../public/img/bg.jpg";
@@ -43,19 +44,28 @@ function ParallaxBanner({ children }) {
 
   return (
     <>
-      <Image
-        alt="bg"
-        src={imageUrl}
-        placeholder="blur"
-        quality={100}
-        fill
-        sizes="100vw"
-        style={{
-          zIndex: -2,
-          objectFit: "cover",
+      <Box
+        sx={{
+          position: "absolute",
           transform: `translateY(${offset * 0.5}px)`,
+          width: "100%",
+          height: "90vh",
+          zIndex: -1,
         }}
-      />
+      >
+        <Image
+          alt="bg"
+          src={imageUrl}
+          placeholder="blur"
+          quality={100}
+          fill
+          sizes="100vw"
+          style={{
+            zIndex: -2,
+            objectFit: "cover",
+          }}
+        />
+      </Box>
       {children}
     </>
   );
