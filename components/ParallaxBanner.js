@@ -1,9 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Box } from "@mui/material";
 
 import { useSelectedLayoutSegment } from "next/navigation";
+import Image from "next/image";
+import bg from "../public/img/bg.jpg";
+import aboutBg from "../public/img/about_bg.jpg";
+import contactBg from "../public/img/contact_bg.jpg";
+import profileBg from "../public/img/profile_bg.jpg";
+// import otherBg from "../public/img/other_bg.jpg";
 
 function ParallaxBanner({ children }) {
   const [offset, setOffset] = useState(0);
@@ -12,16 +17,16 @@ function ParallaxBanner({ children }) {
   let imageUrl;
   switch (segment) {
     case "about":
-      imageUrl = "/img/about_bg.jpg";
+      imageUrl = aboutBg;
       break;
     case "contact":
-      imageUrl = "/img/contact_bg.jpg";
+      imageUrl = contactBg;
       break;
     case "profile":
-      imageUrl = "/img/profile_bg.jpg";
+      imageUrl = profileBg;
       break;
     default:
-      imageUrl = "/img/bg.jpg";
+      imageUrl = bg;
   }
 
   useEffect(() => {
@@ -38,17 +43,17 @@ function ParallaxBanner({ children }) {
 
   return (
     <>
-      <Box
-        sx={{
-          height: "90vh",
-          backgroundImage: `url(${imageUrl})`,
+      <Image
+        alt="bg"
+        src={imageUrl}
+        placeholder="blur"
+        quality={100}
+        fill
+        sizes="100vw"
+        style={{
+          zIndex: -2,
+          objectFit: "cover",
           transform: `translateY(${offset * 0.5}px)`,
-          position: "absolute",
-          width: "100%",
-          zIndex: -1,
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
         }}
       />
       {children}
