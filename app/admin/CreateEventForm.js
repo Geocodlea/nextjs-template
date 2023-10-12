@@ -1,8 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { Button, Box } from "@mui/material";
+import { Alert, Button, Box } from "@mui/material";
 
 import {
   CustomTextField,
@@ -31,12 +32,34 @@ const validationSchema = Yup.object().shape({
   // ),
 });
 
-const onSubmit = (values) => {
-  // Handle form submission here, e.g., send data to a server
-  console.log(values);
-};
+const CreateEventForm = () => {
+  const [isSuccessful, setIsSuccessful] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
-const EventForm = () => {
+  const onSubmit = async (values) => {
+    try {
+      const response = await fetch("/api/events", {
+        method: "POST",
+        body: JSON.stringify(values),
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        // Check for non-successful HTTP status codes
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      setIsSuccessful(true);
+      setHasError(false);
+    } catch (error) {
+      // Handle any errors that occurred during the fetch operation
+      setIsSuccessful(false);
+      setHasError(true);
+    }
+  };
+
   return (
     <Formik
       initialValues={initialValues}
@@ -99,14 +122,45 @@ const EventForm = () => {
           label="I agree"
         /> */}
 
-        <Box style={{ display: "flex", justifyContent: "center" }}>
-          <Button type="submit" variant="contained" color="primary">
+        <Box
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{ marginTop: "12px", marginBottom: "20px" }}
+          >
             Submit
           </Button>
+          {hasError && (
+            <Alert
+              onClose={() => {
+                setHasError(false);
+              }}
+              severity="error"
+            >
+              Error creating event
+            </Alert>
+          )}
+          {isSuccessful && (
+            <Alert
+              onClose={() => {
+                setIsSuccessful(false);
+              }}
+              severity="success"
+            >
+              Event created successfully
+            </Alert>
+          )}
         </Box>
       </Form>
     </Formik>
   );
 };
 
-export default EventForm;
+export default CreateEventForm;
