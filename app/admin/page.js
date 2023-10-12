@@ -2,7 +2,7 @@ import { authOptions } from "../api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth/next";
 import styles from "../page.module.css";
 
-import CreateEvent from "./CreateEvent";
+import CreateEventForm from "./CreateEventForm";
 
 export default async function Admin() {
   const session = await getServerSession(authOptions);
@@ -12,7 +12,7 @@ export default async function Admin() {
 
   return (
     <main className={styles.content}>
-      <CreateEvent />
+      <CreateEventForm />
     </main>
   );
 }
