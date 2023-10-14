@@ -5,7 +5,6 @@ import dbConnect from "/utils/dbConnect";
 import Event from "/models/Event";
 
 import Image from "next/image";
-import bg from "../public/img/bg.jpg";
 
 const Events = async () => {
   await dbConnect();
@@ -16,8 +15,23 @@ const Events = async () => {
 
   return (
     <Box className={styles.grid}>
-      {events.map((event) => (
+      {events.map((event, index) => (
         <Paper
+          elevation={24}
+          className={styles.card}
+          key={event.id}
+          sx={{ margin: "10px", position: "relative", height: "400px" }}
+        >
+          <Image
+            alt="bg"
+            src={`/test/bg${index}.jpg`}
+            fill
+            sizes="(max-width: 768px) 100vw"
+            style={{
+              objectFit: "cover",
+            }}
+          />
+          {/* <Paper
           elevation={24}
           className={styles.card}
           key={event.id}
@@ -25,13 +39,16 @@ const Events = async () => {
         >
           <Image
             alt="bg"
-            src={bg}
-            placeholder="blur"
-            fill
+            src={`/test/bg${index}.jpg`}
+            width={500}
+            height={500}
+            sizes="100vw"
             style={{
-              objectFit: "contain",
+              objectFit: "cover",
+              width: "100%",
+              height: "150px",
             }}
-          />
+          /> */}
           <Typography>{event.title}</Typography>
           <Typography>{event.description}</Typography>
           <Typography>{event.image}</Typography>
