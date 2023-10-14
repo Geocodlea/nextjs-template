@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { Alert, Button, Box } from "@mui/material";
+import { Alert, Box } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 import {
   CustomTextField,
@@ -15,8 +16,8 @@ const initialValues = {
   title: "",
   description: "",
   image: "",
-  eventDate: "",
-  eventType: "",
+  date: "",
+  type: "",
   //  isAgree: false,
 };
 
@@ -24,8 +25,8 @@ const validationSchema = Yup.object().shape({
   title: Yup.string().required("Title is required"),
   description: Yup.string().required("Description is required"),
   image: Yup.mixed().required("Image is required"),
-  eventDate: Yup.date().required("Event date is required"),
-  eventType: Yup.string().required("Event Type is required"),
+  date: Yup.date().required("Event date is required"),
+  type: Yup.string().required("Event Type is required"),
   // isAgree: Yup.boolean().oneOf(
   //   [true],
   //   "You must agree to the terms and conditions"
@@ -33,10 +34,11 @@ const validationSchema = Yup.object().shape({
 });
 
 const CreateEventForm = () => {
-  const [isSuccessful, setIsSuccessful] = useState(false);
-  const [hasError, setHasError] = useState(false);
+  const [alert, setAlert] = useState({ text: "", severity: "" });
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (values) => {
+    setLoading(true);
     try {
       const response = await fetch("/api/events", {
         method: "POST",
@@ -50,13 +52,12 @@ const CreateEventForm = () => {
         // Check for non-successful HTTP status codes
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-
-      setIsSuccessful(true);
-      setHasError(false);
+      setAlert({ text: "Event created successfully", severity: "success" });
+      setLoading(false);
     } catch (error) {
       // Handle any errors that occurred during the fetch operation
-      setIsSuccessful(false);
-      setHasError(true);
+      setAlert({ text: "Error creating event", severity: "error" });
+      setLoading(false);
     }
   };
 
@@ -95,9 +96,9 @@ const CreateEventForm = () => {
         />
 
         <Field
-          name="eventDate"
+          name="date"
           component={CustomTextField}
-          label="Event Date"
+          label="Date"
           type="date"
           InputLabelProps={{
             shrink: true,
@@ -105,9 +106,9 @@ const CreateEventForm = () => {
         />
 
         <Field
-          name="eventType"
+          name="type"
           component={CustomSelect}
-          label="Event Type"
+          label="Type"
           options={[
             { value: "conference", label: "Conference" },
             { value: "seminar", label: "Seminar" },
@@ -129,32 +130,23 @@ const CreateEventForm = () => {
             alignItems: "center",
           }}
         >
-          <Button
+          <LoadingButton
             type="submit"
+            loading={loading}
+            loadingIndicator="Creating..."
             variant="contained"
-            color="primary"
             sx={{ marginTop: "12px", marginBottom: "20px" }}
           >
-            Submit
-          </Button>
-          {hasError && (
+            Create
+          </LoadingButton>
+          {alert.text && (
             <Alert
               onClose={() => {
-                setHasError(false);
+                setAlert({ text: "", severity: "" });
               }}
-              severity="error"
+              severity={alert.severity}
             >
-              Error creating event
-            </Alert>
-          )}
-          {isSuccessful && (
-            <Alert
-              onClose={() => {
-                setIsSuccessful(false);
-              }}
-              severity="success"
-            >
-              Event created successfully
+              {alert.text}
             </Alert>
           )}
         </Box>

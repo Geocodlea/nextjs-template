@@ -9,7 +9,7 @@ global.models.Event =
     description: { type: String },
     image: { type: String },
     date: { type: Date },
-    eventType: { type: String },
+    type: { type: String },
   });
 
 export default global.models.Event;

@@ -10,8 +10,7 @@ import AppBar from "@/components/Appbar";
 import ParallaxBanner from "@/components/ParallaxBanner";
 import Footer from "@/components/Footer";
 
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
+import { Paper, Box } from "@mui/material";
 
 const inter = Inter({ subsets: ["latin"] });
 

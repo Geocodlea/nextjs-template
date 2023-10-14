@@ -3,12 +3,14 @@
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 
-import Avatar from "@mui/material/Avatar";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import {
+  Avatar,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 
 const NavItem = ({ name, link }) => {
   return (

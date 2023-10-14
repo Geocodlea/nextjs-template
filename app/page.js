@@ -2,16 +2,12 @@ import { authOptions } from "./api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth/next";
 import styles from "./page.module.css";
 
+import { Paper, Box } from "@mui/material";
+
+import Events from "@/components/Events";
+
 export default async function Home() {
   const session = await getServerSession(authOptions);
 
-  return (
-    <>
-      {session ? (
-        <main className={styles.content}>{session?.user.email}</main>
-      ) : (
-        <h1 className="text-5xl">NOT LOGGED IN!</h1>
-      )}
-    </>
-  );
+  return <Events />;
 }

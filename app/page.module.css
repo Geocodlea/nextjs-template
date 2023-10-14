@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 80vh 0 1rem;
+  padding: 60vh 0 1rem;
   min-height: 100vh;
 }
 
@@ -50,13 +50,12 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(25%, auto));
-  max-width: 100%;
-  width: var(--max-width);
+  grid-template-columns: repeat(3, 1fr);
+  width: 100%;
 }
 
 .card {
-  padding: 1rem 1.2rem;
+  padding: 1rem 2rem;
   border-radius: var(--border-radius);
   background: rgba(var(--card-rgb), 0);
   border: 1px solid rgba(var(--card-border-rgb), 0);
@@ -70,7 +69,7 @@
 
 .card h2 {
   font-weight: 600;
-  margin-bottom: 0.7rem;
+  margin-bottom: 0.5rem;
 }
 
 .card p {
@@ -86,7 +85,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  padding: 1rem 0;
+  padding: 6rem 0;
 }
 
 .center::before {
@@ -142,21 +141,12 @@
 
   .grid {
     grid-template-columns: 1fr;
-    margin-bottom: 120px;
     max-width: 320px;
     text-align: center;
   }
 
-  .card {
-    padding: 1rem 2.5rem;
-  }
-
-  .card h2 {
-    margin-bottom: 0.5rem;
-  }
-
   .center {
-    padding: 0.8rem 0;
+    padding: 6rem 0 4rem;
   }
 
   .center::before {
@@ -214,7 +204,7 @@
 /* Tablet and Smaller Desktop */
 @media (min-width: 701px) and (max-width: 1120px) {
   .grid {
-    grid-template-columns: repeat(2, 50%);
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .content {
