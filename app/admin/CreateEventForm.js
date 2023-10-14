@@ -36,14 +36,26 @@ const CreateEventForm = () => {
   const [isSuccessful, setIsSuccessful] = useState(false);
   const [hasError, setHasError] = useState(false);
 
+  const [file, setFile] = useState();
+
   const onSubmit = async (values) => {
     try {
+      let formData = new FormData();
+
+      formData.append("title", values.title);
+      formData.append("description", values.description);
+      formData.append("image", values.image);
+      formData.append("eventDate", values.eventDate);
+      formData.append("eventType", values.eventType);
+
+      console.log(formData.get("image"));
+
       const response = await fetch("/api/events", {
         method: "POST",
-        body: JSON.stringify(values),
-        headers: {
-          "Content-type": "application/json",
-        },
+        body: formData, // JSON.stringify(values),
+        // headers: {
+        //   "Content-type": "application/json",
+        // },
       });
 
       if (!response.ok) {
@@ -89,6 +101,7 @@ const CreateEventForm = () => {
           label="Image"
           type="file"
           accept="image/*"
+          //   onChange={(e) => setFile(e.target.files?.[0])}
           InputLabelProps={{
             shrink: true,
           }}
