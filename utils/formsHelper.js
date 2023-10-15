@@ -6,6 +6,7 @@ import {
   Checkbox,
   MenuItem,
 } from "@mui/material";
+import { useState } from "react";
 
 const CustomTextField = ({ field, form, ...props }) => (
   <TextField
@@ -59,4 +60,19 @@ const CustomCheckbox = ({ field, form, label, ...props }) => (
   </FormControl>
 );
 
-export { CustomTextField, CustomSelect, CustomCheckbox };
+const CustomFileUpload = ({ field, form, ...props }) => (
+  <TextField
+    onChange={(e) => form.setFieldValue(field.name, e.currentTarget.files[0])}
+    {...props}
+    error={form.errors[field.name] && form.touched[field.name]}
+    helperText={
+      form.errors[field.name] && form.touched[field.name]
+        ? form.errors[field.name]
+        : ""
+    }
+    fullWidth
+    margin="normal"
+  />
+);
+
+export { CustomTextField, CustomSelect, CustomCheckbox, CustomFileUpload };

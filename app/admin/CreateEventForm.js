@@ -10,6 +10,7 @@ import {
   CustomTextField,
   //  CustomCheckbox,
   CustomSelect,
+  CustomFileUpload,
 } from "@/utils/formsHelper";
 
 const initialValues = {
@@ -40,12 +41,22 @@ const CreateEventForm = () => {
   const onSubmit = async (values) => {
     setLoading(true);
     try {
+      let formData = new FormData();
+
+      formData.append("title", values.title);
+      formData.append("description", values.description);
+      formData.append("image", values.image);
+      formData.append("eventDate", values.eventDate);
+      formData.append("eventType", values.eventType);
+
+      console.log(formData.get("image"));
+
       const response = await fetch("/api/events", {
         method: "POST",
-        body: JSON.stringify(values),
-        headers: {
-          "Content-type": "application/json",
-        },
+        body: formData, // JSON.stringify(values),
+        // headers: {
+        //   "Content-type": "application/json",
+        // },
       });
 
       if (!response.ok) {
@@ -86,7 +97,7 @@ const CreateEventForm = () => {
 
         <Field
           name="image"
-          component={CustomTextField}
+          component={CustomFileUpload}
           label="Image"
           type="file"
           accept="image/*"
