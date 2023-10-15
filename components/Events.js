@@ -20,18 +20,19 @@ const Events = async () => {
           elevation={24}
           className={styles.card}
           key={event.id}
-          sx={{ margin: "10px", position: "relative", height: "400px" }}
+          style={{ margin: "10px", padding: 0 }}
         >
-          <Image
-            alt="bg"
-            src={`/test/bg${index}.jpg`}
-            fill
-            sizes="(max-width: 768px) 100vw"
-            style={{
-              objectFit: "cover",
-            }}
-          />
-          {/* <Paper
+          <Box sx={{ position: "relative", height: "300px" }}>
+            <Image
+              alt="bg"
+              src={`/test/bg${index}.jpg`}
+              fill
+              sizes="(max-width: 768px) 100vw"
+              style={{
+                objectFit: "cover",
+              }}
+            />
+            {/* <Paper
           elevation={24}
           className={styles.card}
           key={event.id}
@@ -49,7 +50,9 @@ const Events = async () => {
               height: "150px",
             }}
           /> */}
-          <Typography>{event.title}</Typography>
+            <Typography>{event.title}</Typography>
+          </Box>
+
           <Typography>{event.description}</Typography>
           <Typography>{event.image}</Typography>
           <Typography>
