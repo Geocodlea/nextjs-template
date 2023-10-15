@@ -8,10 +8,13 @@ import LoadingButton from "@mui/lab/LoadingButton";
 
 import {
   CustomTextField,
-  //  CustomCheckbox,
+  CustomCheckbox,
   CustomSelect,
   CustomFileUpload,
 } from "@/utils/formsHelper";
+
+const FILE_SIZE = 5000000; // 5 MB
+const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
 
 const initialValues = {
   title: "",
@@ -19,44 +22,49 @@ const initialValues = {
   image: "",
   date: "",
   type: "",
-  //  isAgree: false,
+  isAgree: false,
 };
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("Title is required"),
   description: Yup.string().required("Description is required"),
-  image: Yup.mixed().required("Image is required"),
+  image: Yup.mixed()
+    .required("Image is Required")
+    .test(
+      "fileSize",
+      "File size is too large",
+      (value) => value && value.size <= FILE_SIZE
+    )
+    .test(
+      "fileFormat",
+      "Unsupported file type",
+      (value) =>
+        value === null || (value && SUPPORTED_FORMATS.includes(value.type))
+    ),
   date: Yup.date().required("Event date is required"),
   type: Yup.string().required("Event Type is required"),
-  // isAgree: Yup.boolean().oneOf(
-  //   [true],
-  //   "You must agree to the terms and conditions"
-  // ),
+  isAgree: Yup.boolean().oneOf(
+    [true],
+    "You must agree to the terms and conditions"
+  ),
 });
 
 const CreateEventForm = () => {
   const [alert, setAlert] = useState({ text: "", severity: "" });
-  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (values) => {
-    setLoading(true);
     try {
       let formData = new FormData();
 
       formData.append("title", values.title);
       formData.append("description", values.description);
       formData.append("image", values.image);
-      formData.append("eventDate", values.eventDate);
-      formData.append("eventType", values.eventType);
-
-      console.log(formData.get("image"));
+      formData.append("date", values.date);
+      formData.append("type", values.type);
 
       const response = await fetch("/api/events", {
         method: "POST",
-        body: formData, // JSON.stringify(values),
-        // headers: {
-        //   "Content-type": "application/json",
-        // },
+        body: formData,
       });
 
       if (!response.ok) {
@@ -64,11 +72,9 @@ const CreateEventForm = () => {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       setAlert({ text: "Event created successfully", severity: "success" });
-      setLoading(false);
     } catch (error) {
       // Handle any errors that occurred during the fetch operation
       setAlert({ text: "Error creating event", severity: "error" });
-      setLoading(false);
     }
   };
 
@@ -78,90 +84,91 @@ const CreateEventForm = () => {
       validationSchema={validationSchema}
       onSubmit={onSubmit}
     >
-      <Form>
-        <Field
-          autoComplete="on"
-          name="title"
-          component={CustomTextField}
-          label="Title"
-          type="text"
-        />
+      {({ isSubmitting }) => (
+        <Form>
+          <Field
+            name="title"
+            component={CustomTextField}
+            label="Title"
+            type="text"
+          />
 
-        <Field
-          name="description"
-          component={CustomTextField}
-          label="Description"
-          type="text"
-          multiline
-        />
+          <Field
+            name="description"
+            component={CustomTextField}
+            label="Description"
+            type="text"
+            multiline
+          />
 
-        <Field
-          name="image"
-          component={CustomFileUpload}
-          label="Image"
-          type="file"
-          accept="image/*"
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
+          <Field
+            name="image"
+            component={CustomFileUpload}
+            label="Image"
+            type="file"
+            accept="image/*"
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
 
-        <Field
-          name="date"
-          component={CustomTextField}
-          label="Date"
-          type="date"
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
+          <Field
+            name="date"
+            component={CustomTextField}
+            label="Date"
+            type="date"
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
 
-        <Field
-          name="type"
-          component={CustomSelect}
-          label="Type"
-          options={[
-            { value: "conference", label: "Conference" },
-            { value: "seminar", label: "Seminar" },
-            { value: "workshop", label: "Workshop" },
-          ]}
-        />
+          <Field
+            name="type"
+            component={CustomSelect}
+            label="Type"
+            options={[
+              { value: "conference", label: "Conference" },
+              { value: "seminar", label: "Seminar" },
+              { value: "workshop", label: "Workshop" },
+            ]}
+          />
 
-        {/* <Field
-          name="isAgree"
-          type="checkbox"
-          component={CustomCheckbox}
-          label="I agree"
-        /> */}
+          <Field
+            name="isAgree"
+            type="checkbox"
+            component={CustomCheckbox}
+            label="I agree"
+          />
 
-        <Box
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <LoadingButton
-            type="submit"
-            loading={loading}
-            loadingIndicator="Creating..."
-            variant="contained"
-            sx={{ marginTop: "12px", marginBottom: "20px" }}
+          <Box
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
-            Create
-          </LoadingButton>
-          {alert.text && (
-            <Alert
-              onClose={() => {
-                setAlert({ text: "", severity: "" });
-              }}
-              severity={alert.severity}
+            <LoadingButton
+              type="submit"
+              loading={isSubmitting}
+              loadingIndicator="Creating..."
+              variant="contained"
+              sx={{ marginTop: "12px", marginBottom: "20px" }}
             >
-              {alert.text}
-            </Alert>
-          )}
-        </Box>
-      </Form>
+              Create event
+            </LoadingButton>
+            {alert.text && (
+              <Alert
+                onClose={() => {
+                  setAlert({ text: "", severity: "" });
+                }}
+                severity={alert.severity}
+              >
+                {alert.text}
+              </Alert>
+            )}
+          </Box>
+        </Form>
+      )}
     </Formik>
   );
 };
