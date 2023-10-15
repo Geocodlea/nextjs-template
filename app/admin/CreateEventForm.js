@@ -9,6 +9,7 @@ import {
   CustomTextField,
   //  CustomCheckbox,
   CustomSelect,
+  CustomFileUpload,
 } from "@/utils/formsHelper";
 
 const initialValues = {
@@ -35,8 +36,6 @@ const validationSchema = Yup.object().shape({
 const CreateEventForm = () => {
   const [isSuccessful, setIsSuccessful] = useState(false);
   const [hasError, setHasError] = useState(false);
-
-  const [file, setFile] = useState();
 
   const onSubmit = async (values) => {
     try {
@@ -97,11 +96,10 @@ const CreateEventForm = () => {
 
         <Field
           name="image"
-          component={CustomTextField}
+          component={CustomFileUpload}
           label="Image"
           type="file"
           accept="image/*"
-          //   onChange={(e) => setFile(e.target.files?.[0])}
           InputLabelProps={{
             shrink: true,
           }}

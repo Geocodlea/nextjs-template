@@ -1,26 +1,47 @@
-import dbConnect from "/utils/dbConnect";
-import Event from "/models/Event";
-import formidable from "formidable";
+// import dbConnect from "/utils/dbConnect";
+// import Event from "/models/Event";
+// import formidable from "formidable";
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+// export const config = {
+//   api: {
+//     bodyParser: false,
+//   },
+// };
+
+// export async function POST(request) {
+//   await dbConnect();
+
+//   //const body = await request.json();
+
+//   const formData = await request.formData();
+//   //const data = await body.body;
+
+//   console.log(formData.get("image"));
+
+//   // const event = new Event(body);
+//   // await event.save();
+
+//   return new Response(); //.json(event);
+// }
+
+import { writeFile } from "fs/promises";
+import { NextResponse } from "next/server";
 
 export async function POST(request) {
-  await dbConnect();
+  const data = await request.formData();
+  const file = data.get("image");
 
-  //const body = await request.json();
+  if (!file) {
+    return NextResponse.json({ success: false });
+  }
 
-  const formData = await request.text();
+  const bytes = await file.arrayBuffer();
+  const buffer = Buffer.from(bytes);
 
-  //const data = await body.body;
+  // With the file data in the buffer, you can do whatever you want with it.
+  // For this, we'll just write it to the filesystem in a new location
+  const path = `public/uploads/events/${file.name}`;
+  await writeFile(path, buffer);
 
-  console.log(formData);
-
-  // const event = new Event(body);
-  // await event.save();
-
-  return new Response(); //.json(event);
+  return NextResponse.json({ success: true });
 }
