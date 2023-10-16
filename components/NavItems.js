@@ -69,13 +69,13 @@ const NavItems = ({
           }}
         >
           {session.user.role === "admin" && (
-            <MenuItem>
-              <Link href="/admin">Admin</Link>
-            </MenuItem>
+            <Link href="/admin">
+              <MenuItem onClick={handleCloseMenu}>Admin</MenuItem>
+            </Link>
           )}
-          <MenuItem>
-            <Link href="/profile">Profile</Link>
-          </MenuItem>
+          <Link href="/profile">
+            <MenuItem onClick={handleCloseMenu}>Profile</MenuItem>
+          </Link>
           <MenuItem onClick={() => signOut()}>Sign Out</MenuItem>
         </Menu>
       </ListItem>

@@ -109,7 +109,13 @@ function DrawerAppBar(props) {
             }}
           >
             <Link href="/">
-              <Image src="/vercel.svg" alt="Logo" width={70} height={70} />
+              <Image
+                src="/vercel.svg"
+                alt="Logo"
+                width={70}
+                height={70}
+                priority
+              />
             </Link>
           </Typography>
           <Box

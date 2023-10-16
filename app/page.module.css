@@ -35,12 +35,18 @@
 }
 
 .description p {
-  position: relative;
   margin: 0;
   padding: 1rem;
-  background-color: rgba(var(--callout-rgb), 0.5);
-  border: 1px solid rgba(var(--callout-border-rgb), 0.3);
-  border-radius: var(--border-radius);
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid rgba(var(--callout-border-rgb), 0.25);
+  background: linear-gradient(
+    to bottom,
+    rgba(var(--background-start-rgb), 1),
+    rgba(var(--callout-rgb), 0.5)
+  );
+  background-clip: padding-box;
+  backdrop-filter: blur(24px);
 }
 
 .code {
@@ -50,7 +56,7 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 33.3%);
   width: 100%;
 }
 
@@ -73,11 +79,10 @@
 }
 
 .card p {
-  margin: 0;
+  padding: 1rem;
   opacity: 0.6;
   font-size: 0.9rem;
   line-height: 1.5;
-  max-width: 30ch;
 }
 
 .center {
@@ -140,9 +145,9 @@
   }
 
   .grid {
-    grid-template-columns: 1fr;
-    max-width: 320px;
-    text-align: center;
+    grid-template-columns: 100%;
+    max-width: 350px;
+    min-width: 250px;
   }
 
   .center {
@@ -166,24 +171,12 @@
   .description div {
     display: flex;
     justify-content: center;
-    position: fixed;
     width: 100%;
   }
 
   .description p {
     align-items: center;
-    inset: 0 0 auto;
     padding: 2rem 1rem 1.4rem;
-    border-radius: 0;
-    border: none;
-    border-bottom: 1px solid rgba(var(--callout-border-rgb), 0.25);
-    background: linear-gradient(
-      to bottom,
-      rgba(var(--background-start-rgb), 1),
-      rgba(var(--callout-rgb), 0.5)
-    );
-    background-clip: padding-box;
-    backdrop-filter: blur(24px);
   }
 
   .description div {
@@ -204,7 +197,7 @@
 /* Tablet and Smaller Desktop */
 @media (min-width: 701px) and (max-width: 1120px) {
   .grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 50%);
   }
 
   .content {

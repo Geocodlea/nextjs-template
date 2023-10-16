@@ -11,58 +11,51 @@ const Events = async () => {
 
   const events = await Event.find();
 
-  console.log(events[0]);
-
   return (
     <Box className={styles.grid}>
-      {events.map((event, index) => (
+      {events.map((event) => (
         <Paper
           elevation={24}
           className={styles.card}
           key={event.id}
-          style={{ margin: "10px", padding: 0 }}
+          style={{ margin: "10px", padding: 0, textAlign: "center" }}
         >
           <Box sx={{ position: "relative", height: "300px" }}>
             <Image
               alt="bg"
-              src={`/test/bg${index}.jpg`}
+              src={`/uploads/events/${event.image}`}
               fill
               sizes="(max-width: 768px) 100vw"
               style={{
                 objectFit: "cover",
               }}
             />
-            {/* <Paper
-          elevation={24}
-          className={styles.card}
-          key={event.id}
-          sx={{ margin: "10px" }}
-        >
-          <Image
-            alt="bg"
-            src={`/test/bg${index}.jpg`}
-            width={500}
-            height={500}
-            sizes="100vw"
-            style={{
-              objectFit: "cover",
-              width: "100%",
-              height: "150px",
-            }}
-          /> */}
-            <Typography>{event.title}</Typography>
+            <Typography
+              variant="h3"
+              color="grey.900"
+              sx={{
+                position: "absolute",
+                width: "100%",
+                padding: "1rem",
+                backgroundColor: "rgba(var(--callout-rgb), 0.5)",
+              }}
+            >
+              {event.title}
+            </Typography>
           </Box>
-
-          <Typography>{event.description}</Typography>
-          <Typography>{event.image}</Typography>
-          <Typography>
+          <Box className={styles.description}>
+            <p>{event.description}</p>
+          </Box>
+          <Typography className={styles.code}>
             {event.date.toLocaleString("ro-RO", {
               year: "numeric",
               month: "long",
               day: "numeric",
             })}
           </Typography>
-          <Typography>{event.type}</Typography>
+          <Typography variant="overline" gutterBottom>
+            {event.type}
+          </Typography>
         </Paper>
       ))}
     </Box>
