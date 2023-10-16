@@ -1,21 +1,17 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import { Alert } from "@mui/material";
-import { useState } from "react";
 
 const AlertMsg = ({ alert }) => {
-  //   const [alertPopup, setAlertPopup] = useState({
-  //     text: alert?.text,
-  //     severity: alert?.severity,
-  //   });
+  const router = useRouter();
 
   return (
     <>
       {alert.text && (
         <Alert
-          onClose={() => {
-            setAlertPopup({ text: "", severity: "" });
-          }}
+          onClose={() => router.push("/", { scroll: false })}
           severity={alert.severity}
         >
           {alert.text}

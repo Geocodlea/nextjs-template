@@ -6,8 +6,8 @@ import { Paper, Box } from "@mui/material";
 
 import Events from "@/components/Events";
 
-export default async function Home() {
+export default async function Home({ searchParams }) {
   const session = await getServerSession(authOptions);
 
-  return <Events />;
+  return <Events searchParams={searchParams} />;
 }
