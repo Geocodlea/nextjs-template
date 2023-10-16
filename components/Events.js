@@ -1,15 +1,36 @@
+import { authOptions } from "/app/api/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth/next";
+import Image from "next/image";
+import { revalidatePath } from "next/cache";
+
 import styles from "../app/page.module.css";
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Paper, Typography, Button } from "@mui/material";
 
 import dbConnect from "/utils/dbConnect";
 import Event from "/models/Event";
-
-import Image from "next/image";
+import DeleteEvent from "./DeleteEvent";
+//import AlertMsg from "./AlertMsg";
 
 const Events = async () => {
-  await dbConnect();
+  const session = await getServerSession(authOptions);
 
+  await dbConnect();
   const events = await Event.find();
+
+  const handleDelete = async (id) => {
+    "use server";
+
+    try {
+      await Event.deleteOne({ _id: sdf });
+      console.log("deleted");
+      let alert = { text: "Event deleted successfully", severity: "success" };
+    } catch (error) {
+      console.log(error);
+      let alert = { text: "Error deleting event", severity: "error" };
+    }
+
+    revalidatePath("/");
+  };
 
   return (
     <Box className={styles.grid}>
@@ -56,6 +77,24 @@ const Events = async () => {
           <Typography variant="overline" gutterBottom>
             {event.type}
           </Typography>
+          {session?.user.role === "admin" && (
+            <>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-around",
+                  padding: "1rem",
+                }}
+              >
+                <Button color="primary" variant="contained">
+                  Edit Event
+                </Button>
+
+                <DeleteEvent handleDelete={handleDelete} id={event.id} />
+              </Box>
+              {/* <AlertMsg /> */}
+            </>
+          )}
         </Paper>
       ))}
     </Box>
