@@ -1,21 +1,38 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 
-import { Alert } from "@mui/material";
+import { Alert, Snackbar } from "@mui/material";
 
 const AlertMsg = ({ alert }) => {
-  const router = useRouter();
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setOpen(true);
+  }, [alert]);
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   return (
     <>
       {alert.text && (
-        <Alert
-          onClose={() => router.push("/", { scroll: false })}
-          severity={alert.severity}
+        <Snackbar
+          open={open}
+          autoHideDuration={3000}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          key={"bottom" + "center"}
+          onClose={handleClose}
         >
-          {alert.text}
-        </Alert>
+          <Alert onClose={handleClose} severity={alert.severity}>
+            {alert.text}
+          </Alert>
+        </Snackbar>
       )}
     </>
   );

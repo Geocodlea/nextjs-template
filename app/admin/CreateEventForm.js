@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { Alert, Box } from "@mui/material";
+import { Box } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 
 import {
@@ -12,6 +12,7 @@ import {
   CustomSelect,
   CustomFileUpload,
 } from "@/utils/formsHelper";
+import AlertMsg from "/components/AlertMsg";
 
 const FILE_SIZE = 5000000; // 5 MB
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
@@ -131,6 +132,7 @@ const CreateEventForm = () => {
               { value: "seminar", label: "Seminar" },
               { value: "workshop", label: "Workshop" },
             ]}
+            inputProps={{ MenuProps: { disableScrollLock: true } }}
           />
 
           <Field
@@ -156,16 +158,7 @@ const CreateEventForm = () => {
             >
               Create event
             </LoadingButton>
-            {alert.text && (
-              <Alert
-                onClose={() => {
-                  setAlert({ text: "", severity: "" });
-                }}
-                severity={alert.severity}
-              >
-                {alert.text}
-              </Alert>
-            )}
+            <AlertMsg alert={alert} />
           </Box>
         </Form>
       )}

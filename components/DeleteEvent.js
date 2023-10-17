@@ -25,6 +25,7 @@ export default function DeleteEvent({ handleDelete, id }) {
         Delete Event
       </Button>
       <Dialog
+        disableScrollLock={true}
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"

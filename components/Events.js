@@ -15,17 +15,16 @@ import { redirect } from "next/navigation";
 
 const Events = async ({ searchParams }) => {
   const session = await getServerSession(authOptions);
+  const alert = { text: searchParams.text, severity: searchParams.severity };
 
   await dbConnect();
   const events = await Event.find();
-
-  let alert = { text: searchParams.text, severity: searchParams.severity };
 
   const handleDelete = async (id) => {
     "use server";
 
     try {
-      await Event.deleteOne({ _id: gdf });
+      await Event.deleteOne({ _id: id });
     } catch (error) {
       redirect(`/?text=Error deleting event&severity=error`);
     }
