@@ -2,6 +2,7 @@ import { authOptions } from "/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth/next";
 import Image from "next/image";
 import { revalidatePath } from "next/cache";
+import Link from "next/link";
 
 import styles from "../app/page.module.css";
 import { Box, Paper, Typography, Button } from "@mui/material";
@@ -87,9 +88,11 @@ const Events = async ({ searchParams }) => {
                   padding: "1rem",
                 }}
               >
-                <Button color="primary" variant="contained">
-                  Edit Event
-                </Button>
+                <Link href={`/admin/${event.id}`}>
+                  <Button color="primary" variant="contained">
+                    Edit Event
+                  </Button>
+                </Link>
 
                 <DeleteEvent handleDelete={handleDelete} id={event.id} />
               </Box>
