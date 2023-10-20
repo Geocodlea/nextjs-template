@@ -5,7 +5,7 @@ import styles from "../page.module.css";
 import { Paper, Typography } from "@mui/material";
 
 import CreateEventForm from "./CreateEventForm";
-import Users from "./Users";
+import EditableDataGrid from "@/components/EditableDataGrid";
 
 import dbConnect from "/utils/dbConnect";
 import User from "/models/User";
@@ -19,6 +19,18 @@ export default async function Admin() {
   await dbConnect();
   const users = await User.find();
 
+  const filteredUsers = users.map((user) => ({
+    name: user.name,
+    email: user.email,
+    role: user.role,
+  }));
+
+  const columnsData = [
+    { field: "name", headerName: "Name", width: 200, editable: true },
+    { field: "email", headerName: "Email", width: 200, editable: true },
+    { field: "role", headerName: "Role", width: 150, editable: true },
+  ];
+
   return (
     <>
       <Paper
@@ -31,7 +43,13 @@ export default async function Admin() {
       </Paper>
       <Paper elevation={24} className={styles.card} sx={{ width: "100%" }}>
         <Typography variant="h2">Users</Typography>
-        <Users users={JSON.stringify(users)} />
+        <EditableDataGrid
+          columnsData={columnsData}
+          data={filteredUsers}
+          apiURL={"users"}
+          uniqueColumn={"email"}
+          alertText={"user"}
+        />
       </Paper>
     </>
   );

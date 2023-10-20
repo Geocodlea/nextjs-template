@@ -5,10 +5,10 @@ global.models = global.models || {};
 global.models.User =
   global.models.User ||
   mongoose.model("User", {
-    id: { type: Number, required: true },
-    email: { type: String, required: true },
     name: { type: String },
+    email: { type: String, required: true, unique: true },
     image: { type: String },
+    emailVerified: { type: Date },
     role: { type: String },
   });
 
