@@ -32,7 +32,7 @@ export default function DeleteEvent({ handleDelete, id }) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">{"Delete Event?"}</DialogTitle>
-        <DialogContent>
+        <DialogContent dividers>
           <DialogContentText id="alert-dialog-description">
             Are you sure you want to delete the event? There is no coming back
             from this, the event will be permanently deleted.
@@ -49,7 +49,6 @@ export default function DeleteEvent({ handleDelete, id }) {
               handleClose();
               handleDelete(id);
             }}
-            autoFocus
           >
             Delete
           </Button>

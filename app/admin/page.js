@@ -26,9 +26,27 @@ export default async function Admin() {
   }));
 
   const columnsData = [
-    { field: "name", headerName: "Name", width: 200, editable: true },
-    { field: "email", headerName: "Email", width: 200, editable: true },
-    { field: "role", headerName: "Role", width: 150, editable: true },
+    {
+      field: "name",
+      headerName: "Name",
+      editable: true,
+      width: 150,
+      flex: 1,
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      editable: true,
+      width: 150,
+      flex: 1,
+    },
+    {
+      field: "role",
+      headerName: "Role",
+      editable: true,
+      width: 100,
+      flex: 0.3,
+    },
   ];
 
   return (

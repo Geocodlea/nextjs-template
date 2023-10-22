@@ -18,6 +18,10 @@ import {
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
 
 import AlertMsg from "./AlertMsg";
 
@@ -58,13 +62,16 @@ const EditableDataGrid = ({
   alertText,
 }) => {
   const [alert, setAlert] = useState({ text: "", severity: "" });
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [idDelete, setIdDelete] = useState();
 
   // Generate the columns array based on columnsData
   const columns = columnsData.map((item) => ({
     field: item.field,
     headerName: item.headerName,
-    width: item.width,
     editable: item.editable,
+    minWidth: item.width,
+    flex: item.flex,
   }));
 
   // Generate the initialRows array based on users and the dynamically generated columns
@@ -138,7 +145,13 @@ const EditableDataGrid = ({
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
   };
 
-  const handleDeleteClick = (id) => async () => {
+  const handleDeleteClick = (id) => () => {
+    setIdDelete(id);
+    setOpenDeleteDialog(true);
+  };
+
+  const confirmDelete = (id) => async () => {
+    setOpenDeleteDialog(false);
     const rowToDelete = rows.find((row) => row.id === id);
 
     try {
@@ -256,6 +269,33 @@ const EditableDataGrid = ({
         },
       }}
     >
+      <Dialog
+        disableScrollLock={true}
+        open={openDeleteDialog}
+        onClose={() => setOpenDeleteDialog(false)}
+      >
+        <DialogTitle>Delete User?</DialogTitle>
+        <DialogContent dividers>
+          Are you sure you want to delete the user? The user will be permanently
+          deleted.
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="contained"
+            onClick={() => setOpenDeleteDialog(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            color="error"
+            variant="contained"
+            onClick={confirmDelete(idDelete)}
+          >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <DataGrid
         rows={rows}
         columns={columns}
