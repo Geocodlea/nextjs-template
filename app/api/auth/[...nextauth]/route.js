@@ -57,7 +57,11 @@ export const authOptions = {
   events: {
     async createUser({ user }) {
       await dbConnect();
-      await User.updateOne({ _id: user.id }, { role: "none" });
+
+      const lastID = await User.findOne().sort({ userID: -1 });
+      const userID = lastID ? lastID.userID + 1 : 1;
+
+      await User.updateOne({ _id: user.id }, { userID, role: "none" });
     },
   },
 };

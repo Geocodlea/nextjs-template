@@ -10,6 +10,7 @@ global.models.User =
     image: { type: String },
     emailVerified: { type: Date },
     role: { type: String },
+    userID: { type: Number, required: true, unique: true },
   });
 
 export default global.models.User;
