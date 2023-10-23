@@ -20,12 +20,20 @@ export default async function Admin() {
   const users = await User.find();
 
   const filteredUsers = users.map((user) => ({
+    userID: user.userID,
     name: user.name,
     email: user.email,
     role: user.role,
   }));
 
   const columnsData = [
+    {
+      field: "userID",
+      headerName: "UserID",
+      editable: false,
+      width: 100,
+      flex: 1,
+    },
     {
       field: "name",
       headerName: "Name",
@@ -65,7 +73,7 @@ export default async function Admin() {
           columnsData={columnsData}
           data={filteredUsers}
           apiURL={"users"}
-          uniqueColumn={"email"}
+          uniqueField={"userID"}
           alertText={"user"}
           showAddRecord={false}
         />

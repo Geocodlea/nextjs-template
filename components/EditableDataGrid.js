@@ -29,7 +29,7 @@ function EditToolbar({
   rows,
   setRows,
   setRowModesModel,
-  uniqueColumn,
+  uniqueField,
   showAddRecord,
 }) {
   const handleClick = () => {
@@ -44,7 +44,7 @@ function EditToolbar({
     setRows((oldRows) => [...oldRows, { id, isNew: true }]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
-      [id]: { mode: GridRowModes.Edit, fieldToFocus: uniqueColumn },
+      [id]: { mode: GridRowModes.Edit, fieldToFocus: uniqueField },
     }));
   };
 
@@ -66,7 +66,7 @@ const EditableDataGrid = ({
   columnsData,
   data,
   apiURL,
-  uniqueColumn,
+  uniqueField,
   alertText,
   showAddRecord,
 }) => {
@@ -165,7 +165,7 @@ const EditableDataGrid = ({
 
     try {
       const response = await fetch(
-        `/api/${apiURL}/${rowToDelete[uniqueColumn]}`,
+        `/api/${apiURL}/${rowToDelete[uniqueField]}`,
         {
           method: "DELETE",
         }
@@ -212,7 +212,7 @@ const EditableDataGrid = ({
 
     const apiUrl = newRow.isNew
       ? `/api/${apiURL}`
-      : `/api/${apiURL}/${oldRow[uniqueColumn]}`;
+      : `/api/${apiURL}/${oldRow[uniqueField]}`;
 
     try {
       const method = newRow.isNew ? "POST" : "PUT";
@@ -306,9 +306,12 @@ const EditableDataGrid = ({
             rows,
             setRows,
             setRowModesModel,
-            uniqueColumn,
+            uniqueField,
             showAddRecord,
           },
+        }}
+        columnVisibilityModel={{
+          userID: false,
         }}
       />
       <AlertMsg alert={alert} />

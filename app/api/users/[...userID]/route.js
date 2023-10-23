@@ -6,14 +6,14 @@ export async function PUT(request, { params }) {
   const data = await request.json();
 
   await dbConnect();
-  await User.updateOne({ email: params.email }, data);
+  await User.updateOne({ userID: params.userID }, data);
 
   return NextResponse.json({ success: true });
 }
 
 export async function DELETE(request, { params }) {
   await dbConnect();
-  await User.deleteOne({ email: params.email });
+  await User.deleteOne({ userID: params.userID });
 
   return NextResponse.json({ success: true });
 }
