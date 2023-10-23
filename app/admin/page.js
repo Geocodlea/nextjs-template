@@ -67,6 +67,7 @@ export default async function Admin() {
           apiURL={"users"}
           uniqueColumn={"email"}
           alertText={"user"}
+          showAddRecord={false}
         />
       </Paper>
     </>

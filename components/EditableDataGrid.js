@@ -25,7 +25,13 @@ import DialogActions from "@mui/material/DialogActions";
 
 import AlertMsg from "./AlertMsg";
 
-function EditToolbar({ rows, setRows, setRowModesModel, uniqueColumn }) {
+function EditToolbar({
+  rows,
+  setRows,
+  setRowModesModel,
+  uniqueColumn,
+  showAddRecord,
+}) {
   const handleClick = () => {
     let id;
     if (rows.length === 0) {
@@ -46,9 +52,11 @@ function EditToolbar({ rows, setRows, setRowModesModel, uniqueColumn }) {
     <GridToolbarContainer
       sx={{ display: "flex", justifyContent: "space-between" }}
     >
-      <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
-        Add record
-      </Button>
+      {showAddRecord && (
+        <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
+          Add record
+        </Button>
+      )}
       <GridToolbarQuickFilter />
     </GridToolbarContainer>
   );
@@ -60,6 +68,7 @@ const EditableDataGrid = ({
   apiURL,
   uniqueColumn,
   alertText,
+  showAddRecord,
 }) => {
   const [alert, setAlert] = useState({ text: "", severity: "" });
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -195,60 +204,43 @@ const EditableDataGrid = ({
   };
 
   const processRowUpdate = useCallback(async (newRow, oldRow) => {
-    // Make the HTTP request to save in the backend
     const body = {};
 
-    columnsData.map((col) => {
+    columnsData.forEach((col) => {
       body[col.field] = newRow[col.field];
     });
 
-    if (newRow.isNew) {
-      try {
-        const response = await fetch(`/api/${apiURL}`, {
-          method: "POST",
-          body: JSON.stringify(body),
-        });
+    const apiUrl = newRow.isNew
+      ? `/api/${apiURL}`
+      : `/api/${apiURL}/${oldRow[uniqueColumn]}`;
 
-        if (!response.ok) {
-          // Check for non-successful HTTP status codes
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+    try {
+      const method = newRow.isNew ? "POST" : "PUT";
+      const response = await fetch(apiUrl, {
+        method,
+        body: JSON.stringify(body),
+      });
 
-        setAlert({
-          text: `Successfully created ${alertText}`,
-          severity: "success",
-        });
-
-        const updatedRow = { ...newRow, isNew: false };
-        setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-        return updatedRow;
-      } catch (error) {
-        // Handle any errors that occurred during the fetch operation
-        setAlert({ text: `Error creating ${alertText}`, severity: "error" });
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
-    } else {
-      try {
-        const response = await fetch(`/api/${apiURL}/${oldRow[uniqueColumn]}`, {
-          method: "PUT",
-          body: JSON.stringify(body),
-        });
 
-        if (!response.ok) {
-          // Check for non-successful HTTP status codes
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        setAlert({
-          text: `Successfully updated ${alertText}`,
-          severity: "success",
-        });
+      const actionText = newRow.isNew ? "created" : "updated";
+      const updatedRow = { ...newRow, isNew: false };
 
-        const updatedRow = { ...newRow, isNew: false };
-        setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-        return updatedRow;
-      } catch (error) {
-        // Handle any errors that occurred during the fetch operation
-        setAlert({ text: `Error updating ${alertText}`, severity: "error" });
-      }
+      setAlert({
+        text: `Successfully ${actionText} ${alertText}`,
+        severity: "success",
+      });
+
+      setRows((rows) =>
+        rows.map((row) => (row.id === newRow.id ? updatedRow : row))
+      );
+
+      return updatedRow;
+    } catch (error) {
+      const actionText = newRow.isNew ? "creating" : "updating";
+      setAlert({ text: `Error ${actionText} ${alertText}`, severity: "error" });
     }
   });
 
@@ -315,6 +307,7 @@ const EditableDataGrid = ({
             setRows,
             setRowModesModel,
             uniqueColumn,
+            showAddRecord,
           },
         }}
       />
