@@ -42,11 +42,11 @@ To get started with this Next.js boilerplate template, follow these steps:
 
 2. Install the required dependencies using npm or yarn:
 
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
+```bash
+npm install
+# or
+yarn install
+```
 
 3. Configure your environment variables. Make sure to set up your MongoDB connection details and authentication provider keys in the appropriate `.env.local` file.
 4. Start the development server:
