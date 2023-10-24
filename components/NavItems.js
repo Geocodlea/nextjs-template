@@ -73,7 +73,7 @@ const NavItems = ({
               <MenuItem onClick={handleCloseMenu}>Admin</MenuItem>
             </Link>
           )}
-          <Link href="/profile">
+          <Link href={`/profile/${session.user.id}`}>
             <MenuItem onClick={handleCloseMenu}>Profile</MenuItem>
           </Link>
           <MenuItem onClick={() => signOut()}>Sign Out</MenuItem>
