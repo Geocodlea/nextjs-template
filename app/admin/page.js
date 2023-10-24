@@ -76,6 +76,7 @@ export default async function Admin() {
           uniqueField={"userID"}
           alertText={"user"}
           showAddRecord={false}
+          hiddenField={"userID"}
         />
       </Paper>
     </>

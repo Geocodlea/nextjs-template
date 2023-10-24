@@ -69,6 +69,7 @@ const EditableDataGrid = ({
   uniqueField,
   alertText,
   showAddRecord,
+  hiddenField,
 }) => {
   const [alert, setAlert] = useState({ text: "", severity: "" });
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -311,7 +312,7 @@ const EditableDataGrid = ({
           },
         }}
         columnVisibilityModel={{
-          userID: false,
+          [hiddenField]: false,
         }}
       />
       <AlertMsg alert={alert} />
