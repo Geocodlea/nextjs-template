@@ -50,6 +50,8 @@ export const authOptions = {
     async session({ session, user }) {
       session.user.role = user.role;
       session.user.id = user.id;
+      session.user.userID = user.userID;
+
       return session;
     },
   },
@@ -59,7 +61,7 @@ export const authOptions = {
       await dbConnect();
 
       const lastID = await User.findOne().sort({ userID: -1 });
-      const userID = lastID ? lastID.userID + 1 : 1;
+      const userID = lastID.userID ? lastID.userID + 1 : 1;
 
       await User.updateOne({ _id: user.id }, { userID, role: "none" });
     },

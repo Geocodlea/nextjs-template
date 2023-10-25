@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import { useState } from "react";
 import {
   Box,
@@ -11,8 +13,16 @@ import {
   DialogTitle,
 } from "@mui/material";
 
-export default function DeleteAccount({ handleDelete }) {
+import AlertMsg from "/components/AlertMsg";
+
+import { useSession } from "next-auth/react";
+
+export default function DeleteAccount() {
+  const [alert, setAlert] = useState({ text: "", severity: "" });
   const [open, setOpen] = useState(false);
+
+  const router = useRouter();
+  const { data: session, update } = useSession();
 
   const handleOpen = () => {
     setOpen(true);
@@ -20,6 +30,26 @@ export default function DeleteAccount({ handleDelete }) {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(`/api/users/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        // Check for non-successful HTTP status codes
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      setAlert({ text: "Event deleted successfully", severity: "success" });
+    } catch (error) {
+      // Handle any errors that occurred during the fetch operation
+      setAlert({ text: "Error deleting event", severity: "error" });
+    }
+
+    update();
+    router.push("/");
   };
 
   return (
@@ -51,13 +81,14 @@ export default function DeleteAccount({ handleDelete }) {
             variant="contained"
             onClick={() => {
               handleClose();
-              handleDelete();
+              handleDelete(session.user.id);
             }}
           >
             Delete
           </Button>
         </DialogActions>
       </Dialog>
+      <AlertMsg alert={alert} />
     </div>
   );
 }

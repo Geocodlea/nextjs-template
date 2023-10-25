@@ -11,6 +11,8 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { CustomTextField, CustomFileUpload } from "@/utils/formsHelper";
 import AlertMsg from "/components/AlertMsg";
 
+import { useSession } from "next-auth/react";
+
 const FILE_SIZE = 5000000; // 5 MB
 const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/gif", "image/png"];
 
@@ -34,20 +36,20 @@ const validationSchema = Yup.object().shape({
     }),
 });
 
-const ProfileForm = ({ params, user }) => {
+const ProfileForm = ({}) => {
   const [alert, setAlert] = useState({ text: "", severity: "" });
+
+  const { data: session, update } = useSession();
 
   const onSubmit = async (values) => {
     try {
       let formData = new FormData();
 
-      formData.append("title", values.title);
-      formData.append("description", values.description);
+      formData.append("name", values.name);
+      formData.append("email", values.email);
       formData.append("image", values.image);
-      formData.append("date", values.date);
-      formData.append("type", values.type);
 
-      const response = await fetch(`/api/events/${params.id}`, {
+      const response = await fetch(`/api/users/${session.user.id}`, {
         method: "PATCH",
         body: formData,
       });
@@ -57,6 +59,7 @@ const ProfileForm = ({ params, user }) => {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       setAlert({ text: "Event updated successfully", severity: "success" });
+      update();
     } catch (error) {
       // Handle any errors that occurred during the fetch operation
       setAlert({ text: "Error updating event", severity: "error" });
@@ -76,7 +79,10 @@ const ProfileForm = ({ params, user }) => {
             component={CustomTextField}
             label="Name"
             type="text"
-            placeholder={user.name}
+            placeholder={session?.user.name}
+            InputLabelProps={{
+              shrink: true,
+            }}
           />
 
           <Field
@@ -84,7 +90,10 @@ const ProfileForm = ({ params, user }) => {
             component={CustomTextField}
             label="Email"
             type="text"
-            placeholder={user.email}
+            placeholder={session?.user.email}
+            InputLabelProps={{
+              shrink: true,
+            }}
           />
 
           <Field

@@ -52,7 +52,14 @@ const NavItems = ({
             justifyContent: "center",
           }}
         >
-          <Avatar alt="avatar" src={session.user.image} />
+          <Avatar
+            alt="avatar"
+            src={
+              session.user.image.startsWith("http")
+                ? session.user.image
+                : `/uploads/users/${session.user.image}`
+            }
+          />
         </ListItemButton>
         <Menu
           disableScrollLock={true}
@@ -73,7 +80,7 @@ const NavItems = ({
               <MenuItem onClick={handleCloseMenu}>Admin</MenuItem>
             </Link>
           )}
-          <Link href={`/profile/${session.user.id}`}>
+          <Link href="/profile">
             <MenuItem onClick={handleCloseMenu}>Profile</MenuItem>
           </Link>
           <MenuItem onClick={() => signOut()}>Sign Out</MenuItem>
