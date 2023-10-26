@@ -36,7 +36,7 @@ const validationSchema = Yup.object().shape({
     }),
 });
 
-const ProfileForm = ({}) => {
+const ProfileForm = () => {
   const [alert, setAlert] = useState({ text: "", severity: "" });
 
   const { data: session, update } = useSession();

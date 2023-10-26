@@ -20,7 +20,7 @@ export default async function Admin() {
   const users = await User.find();
 
   const filteredUsers = users.map((user) => ({
-    userID: user.userID,
+    _id: user._id.toHexString(),
     name: user.name,
     email: user.email,
     role: user.role,
@@ -28,8 +28,8 @@ export default async function Admin() {
 
   const columnsData = [
     {
-      field: "userID",
-      headerName: "UserID",
+      field: "_id",
+      headerName: "_id",
       editable: false,
       width: 100,
       flex: 1,
@@ -73,10 +73,10 @@ export default async function Admin() {
           columnsData={columnsData}
           data={filteredUsers}
           apiURL={"users"}
-          uniqueField={"userID"}
+          uniqueField={"_id"}
           alertText={"user"}
           showAddRecord={false}
-          hiddenField={"userID"}
+          hiddenField={"_id"}
         />
       </Paper>
     </>

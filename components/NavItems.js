@@ -55,9 +55,11 @@ const NavItems = ({
           <Avatar
             alt="avatar"
             src={
-              session.user.image.startsWith("http")
-                ? session.user.image
-                : `/uploads/users/${session.user.image}`
+              session?.user.image
+                ? session.user.image.startsWith("http")
+                  ? session.user.image
+                  : `/uploads/users/${session.user.image}`
+                : "/img/avatar.png"
             }
           />
         </ListItemButton>

@@ -32,8 +32,8 @@ export default async function Profile() {
           <ProfileImage />
         </Box>
         <Typography variant="h2">Profile</Typography>
-        <ProfileForm />
 
+        <ProfileForm />
         <DeleteAccount />
       </Paper>
     </>
