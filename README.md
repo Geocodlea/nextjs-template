@@ -30,6 +30,18 @@ This ensures that users can sign in or sign up using their preferred platforms a
 
 The template includes comprehensive CRUD (Create, Read, Update, Delete) examples. It demonstrates how to create forms and utilize the MUI Data Grid component, simplifying data management and enhancing the user experience.
 
+### Mockup Pages with Skeleton Suspense
+
+This template includes mockup pages for various sections, including:
+
+- Homepage
+- About
+- Contact
+- Profile
+- Admin
+
+These mockup pages are designed with skeleton suspense, ensuring a pleasant user experience while content is loading.
+
 ### MUI for Styling
 
 Material-UI (MUI) is utilized for styling. It provides a wide range of pre-designed components and a global.module.css approach for managing styles, ensuring a consistent and attractive appearance for your application.
