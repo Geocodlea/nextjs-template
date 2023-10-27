@@ -1,4 +1,3 @@
-import Link from "next/link";
 import styles from "./page.module.css";
 
 import { Typography } from "@mui/material";
@@ -7,11 +6,12 @@ export default function NotFound() {
   return (
     <>
       <Typography variant="h1" className={styles.title} color={"error"}>
-        Not Found
+        404
       </Typography>
-      <Link href="/" style={{ fontSize: "2rem" }}>
-        Return Home
-      </Link>
+      <Typography sx={{ fontSize: "2rem" }}>Page not found :(</Typography>
+      <Typography sx={{ fontSize: "1rem" }}>
+        Ooooups! Looks like you got lost
+      </Typography>
     </>
   );
 }
