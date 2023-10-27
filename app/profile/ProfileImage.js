@@ -13,8 +13,8 @@ export default function ProfileImage() {
     <Box
       sx={{
         position: "relative",
-        height: "300px",
-        width: "300px",
+        height: "250px",
+        width: "250px",
         marginBottom: "3rem",
       }}
     >

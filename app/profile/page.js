@@ -16,26 +16,24 @@ export default async function Profile() {
   if (!session) redirect(`/`);
 
   return (
-    <>
-      <Paper
-        elevation={24}
-        className={styles.card}
-        sx={{ maxWidth: "600px", marginBottom: "3rem" }}
+    <Paper
+      elevation={24}
+      className={styles.card}
+      sx={{ maxWidth: "600px", marginBottom: "3rem" }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "-10rem",
+        }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "-10rem",
-          }}
-        >
-          <ProfileImage />
-        </Box>
-        <Typography variant="h2">Profile</Typography>
+        <ProfileImage />
+      </Box>
+      <Typography variant="h2">Profile</Typography>
 
-        <ProfileForm />
-        <DeleteAccount />
-      </Paper>
-    </>
+      <ProfileForm />
+      <DeleteAccount />
+    </Paper>
   );
 }
