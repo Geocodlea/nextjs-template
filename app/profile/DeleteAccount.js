@@ -1,7 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
 import { useState } from "react";
 import {
   Box,
@@ -15,14 +13,13 @@ import {
 
 import AlertMsg from "/components/AlertMsg";
 
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 
 export default function DeleteAccount() {
   const [alert, setAlert] = useState({ text: "", severity: "" });
   const [open, setOpen] = useState(false);
 
-  const router = useRouter();
-  const { data: session, update } = useSession();
+  const { data: session } = useSession();
 
   const handleOpen = () => {
     setOpen(true);
@@ -48,8 +45,7 @@ export default function DeleteAccount() {
       setAlert({ text: "Error deleting event", severity: "error" });
     }
 
-    update();
-    router.push("/");
+    signOut();
   };
 
   return (
