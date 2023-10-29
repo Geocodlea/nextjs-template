@@ -46,6 +46,10 @@ These mockup pages are designed with skeleton suspense, ensuring a pleasant user
 
 Material-UI (MUI) is utilized for styling. It provides a wide range of pre-designed components and a global.module.css approach for managing styles, ensuring a consistent and attractive appearance for your application.
 
+### Custom Form Components for Formik and Yup Integration
+
+We've added custom TextField, Select, Checkbox, and File Uploader form components to simplify form management and validation with Formik and Yup. These components make it easy to handle form inputs and validation, ensuring a smooth user experience.
+
 ## Getting Started
 
 To get started with this Next.js boilerplate template, follow these steps:

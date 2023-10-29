@@ -2,7 +2,7 @@ import styles from "./page.module.css";
 
 import { Typography } from "@mui/material";
 
-import Events from "@/components/Events";
+import Events from "./Events";
 
 export default async function Home({ searchParams }) {
   return (

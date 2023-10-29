@@ -9,8 +9,8 @@ import { Box, Paper, Typography, Button } from "@mui/material";
 
 import dbConnect from "/utils/dbConnect";
 import Event from "/models/Event";
-import DeleteEvent from "./DeleteEvent";
-import AlertMsg from "./AlertMsg";
+import DeleteEvent from "./admin/DeleteEvent";
+import AlertMsg from "../components/AlertMsg";
 
 import { redirect } from "next/navigation";
 
