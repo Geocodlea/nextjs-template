@@ -42,7 +42,10 @@ const Events = async ({ searchParams }) => {
             elevation={24}
             className={styles.card}
             key={event.id}
-            style={{ margin: "10px", padding: 0, textAlign: "center" }}
+            style={{
+              padding: 0,
+              textAlign: "center",
+            }}
           >
             <Box sx={{ position: "relative", height: "300px" }}>
               <Image

@@ -14,7 +14,6 @@
   align-items: center;
   padding: 5rem;
   width: 93%;
-  /* min-height: 100vh; */
 }
 
 .description {
@@ -57,7 +56,8 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 33.3%);
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 50px;
   width: 100%;
 }
 
@@ -133,7 +133,8 @@
 /* Tablet and Smaller Desktop */
 @media (min-width: 701px) and (max-width: 1120px) {
   .grid {
-    grid-template-columns: repeat(2, 50%);
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 30px;
   }
 
   .content {

@@ -8,7 +8,7 @@ export default function Loading() {
   return (
     <>
       <Skeleton width="70%" className={styles.title} />
-      <Skeleton variant="rounded" width="100%" height="30vh" />
+      <Skeleton variant="rounded" width="100%" height="10vh" />
       <Skeleton
         variant="rounded"
         width={200}
@@ -16,11 +16,11 @@ export default function Loading() {
         sx={{ margin: "2rem 0" }}
       />
       <Box className={styles.grid}>
-        {skeletons.map((skeleton, index) => (
+        {skeletons.map((skeleton) => (
           <Stack
             spacing={1.5}
             sx={{ margin: "20px", alignItems: "center" }}
-            key={index}
+            key={skeleton}
           >
             <Skeleton variant="circular" width={80} height={80} />
             <Skeleton variant="rounded" width={85} height={32} />

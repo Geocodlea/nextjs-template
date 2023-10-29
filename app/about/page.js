@@ -2,7 +2,7 @@ import styles from "../page.module.css";
 
 import { Box, Typography, Stack, Avatar } from "@mui/material";
 
-export default async function Home({ searchParams }) {
+export default async function About() {
   return (
     <>
       <Typography variant="h1" className={styles.title}>
