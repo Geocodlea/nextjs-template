@@ -86,11 +86,9 @@ function DrawerAppBar(props) {
   }, []);
 
   const appBarStyle = {
-    background: isScrolled
-      ? "linear-gradient(90deg, rgba(125,185,184,1) 0%, rgba(91,126,143,1) 50%, rgba(93,100,152,1) 100%)"
-      : "transparent",
+    background: isScrolled ? "var(--main-gradient)" : "transparent",
     transition: "background 0.3s",
-    padding: "8px 16px",
+    padding: "6px 16px",
     boxShadow: isScrolled
       ? "0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)"
       : "none",

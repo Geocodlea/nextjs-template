@@ -17,6 +17,7 @@ const NavItem = ({ name, link }) => {
     <Link href={link}>
       <ListItem sx={{ paddingY: 0 }}>
         <ListItemButton
+          className="btn"
           sx={{
             textAlign: "center",
           }}

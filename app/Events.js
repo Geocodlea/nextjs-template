@@ -92,7 +92,7 @@ const Events = async ({ searchParams }) => {
                 }}
               >
                 <Link href={`/admin/${event.id}`}>
-                  <Button color="primary" variant="contained">
+                  <Button variant="contained" className="btn btn-primary">
                     Edit Event
                   </Button>
                 </Link>

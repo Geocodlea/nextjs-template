@@ -93,6 +93,7 @@ const ContactForm = () => {
               loading={isSubmitting}
               loadingIndicator="Sending..."
               variant="contained"
+              className="btn btn-primary"
               sx={{ marginTop: "12px", marginBottom: "20px" }}
             >
               Send Message

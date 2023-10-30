@@ -154,6 +154,7 @@ const CreateEventForm = () => {
               loading={isSubmitting}
               loadingIndicator="Creating..."
               variant="contained"
+              className="btn btn-primary"
               sx={{ marginTop: "12px", marginBottom: "20px" }}
             >
               Create event

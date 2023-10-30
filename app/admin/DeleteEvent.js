@@ -21,7 +21,11 @@ export default function DeleteEvent({ handleDelete, id }) {
 
   return (
     <div>
-      <Button color="error" variant="contained" onClick={handleOpen}>
+      <Button
+        variant="contained"
+        className="btn btn-error"
+        onClick={handleOpen}
+      >
         Delete Event
       </Button>
       <Dialog
@@ -39,12 +43,17 @@ export default function DeleteEvent({ handleDelete, id }) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" onClick={handleClose}>
+          <Button
+            variant="contained"
+            className="btn btn-primary"
+            sx={{ marginRight: "10px" }}
+            onClick={handleClose}
+          >
             Cancel
           </Button>
           <Button
-            color="error"
             variant="contained"
+            className="btn btn-error"
             onClick={() => {
               handleClose();
               handleDelete(id);

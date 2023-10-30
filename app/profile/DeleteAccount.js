@@ -56,7 +56,11 @@ export default function DeleteAccount() {
           justifyContent: "center",
         }}
       >
-        <Button color="error" variant="contained" onClick={handleOpen}>
+        <Button
+          className="btn btn-error"
+          variant="contained"
+          onClick={handleOpen}
+        >
           Delete Account
         </Button>
       </Box>
@@ -69,12 +73,17 @@ export default function DeleteAccount() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" onClick={handleClose}>
+          <Button
+            variant="contained"
+            className="btn btn-primary"
+            onClick={handleClose}
+            sx={{ marginRight: "10px" }}
+          >
             Cancel
           </Button>
           <Button
-            color="error"
             variant="contained"
+            className="btn btn-error"
             onClick={() => {
               handleClose();
               handleDelete(session.user.id);

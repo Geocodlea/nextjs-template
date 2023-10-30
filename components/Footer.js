@@ -6,8 +6,7 @@ const Footer = () => {
   return (
     <Box
       sx={{
-        background:
-          "linear-gradient(90deg, rgba(125,185,184,1) 0%, rgba(91,126,143,1) 50%, rgba(93,100,152,1) 100%)",
+        background: "var(--main-gradient)",
       }}
     >
       <Typography textAlign="center" color="white" p={2}>
