@@ -25,6 +25,8 @@
   width: 100%;
   z-index: 2;
   font-family: var(--font-mono);
+  line-height: 1.5;
+  letter-spacing: 0.01;
 }
 
 .description a {
@@ -128,6 +130,7 @@
   font-weight: bold;
   margin-bottom: 4rem;
   text-align: center;
+  text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
 }
 
 /* Tablet and Smaller Desktop */

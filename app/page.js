@@ -1,27 +1,33 @@
 import styles from "./page.module.css";
 
-import { Typography } from "@mui/material";
+import ForwardIcon from "@mui/icons-material/Forward";
 
 import Events from "./Events";
+import ExampleEvents from "./ExampleEvents";
 
 export default async function Home({ searchParams }) {
   return (
     <>
-      <Typography variant="h1" className={styles.title}>
-        Next Template
-      </Typography>
-      <Typography className={styles.description} mb={3}>
+      <h1 className={styles.title}>Next Template</h1>
+      <p className={styles.description} style={{ marginBottom: "2rem" }}>
         This is a Next.js boilerplate template that provides a solid foundation
         for building modern web applications. It includes a well-structured
         Next.js App Router folder structure, built using the latest technologies
         and best practices. This boilerplate is preconfigured with NextAuth.js
         for authentication. It integrates with MongoDB as the database and
         supports multiple authentication providers.
-      </Typography>
-      <Typography variant="h6" className={styles.code} mb={3}>
-        The below cards are a Full CRUD example for an admin user:
-      </Typography>
+      </p>
+      <div
+        style={{ display: "flex", alignItems: "center", marginBottom: "2rem" }}
+      >
+        <h3>Full CRUD examples</h3>
+        <span className="bounce">
+          <ForwardIcon fontSize="large" className="rotate-90" />
+        </span>
+      </div>
       <Events searchParams={searchParams} />
+
+      <ExampleEvents />
     </>
   );
 }

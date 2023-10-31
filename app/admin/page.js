@@ -62,12 +62,16 @@ export default async function Admin() {
       <Paper
         elevation={24}
         className={styles.card}
-        sx={{ maxWidth: "600px", marginBottom: "3rem" }}
+        sx={{ maxWidth: "600px", marginBottom: "5rem", textAlign: "center" }}
       >
         <Typography variant="h2">Create Event</Typography>
         <CreateEventForm />
       </Paper>
-      <Paper elevation={24} className={styles.card} sx={{ width: "100%" }}>
+      <Paper
+        elevation={24}
+        className={styles.card}
+        sx={{ width: "100%", textAlign: "center" }}
+      >
         <Typography variant="h2">Users</Typography>
         <EditableDataGrid
           columnsData={columnsData}

@@ -59,12 +59,17 @@ const Events = async ({ searchParams }) => {
               />
               <Typography
                 variant="h3"
-                color="grey.900"
+                color="grey.100"
                 sx={{
                   position: "absolute",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
                   width: "100%",
-                  padding: "1rem",
-                  backgroundColor: "rgba(var(--callout-rgb), 0.5)",
+                  height: "100%",
+                  fontWeight: "bold",
+                  backgroundColor: "rgba(0, 0, 0, 0.3)",
+                  textShadow: "3px 3px 5px rgba(0, 0, 0, 0.7)",
                 }}
               >
                 {event.title}

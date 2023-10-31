@@ -5,15 +5,13 @@ import { Box, Typography, Stack, Avatar } from "@mui/material";
 export default async function About() {
   return (
     <>
-      <Typography variant="h1" className={styles.title}>
-        About Us
-      </Typography>
-      <Typography className={styles.description} mb={3}>
+      <h1 className={styles.title}>About Us</h1>
+      <p className={styles.description} style={{ marginBottom: "2rem" }}>
         We're passionate about helping you bring your creative ideas to life. We
         understand the power of visuals and how they can transform your design
         concepts into reality. Our mission is to provide you with the most
         user-friendly, versatile, and innovative mockup tools on the web.
-      </Typography>
+      </p>
       <Typography variant="h6" className={styles.code} mb={3}>
         Here is our team:
       </Typography>
