@@ -21,8 +21,7 @@ import NavItems from "./NavItems";
 const drawerWidth = 240;
 const navItems = ["home", "about", "contact", "login"];
 
-function DrawerAppBar(props) {
-  const { windowAppBar } = props;
+function DrawerAppBar({ windowAppBar }) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {

@@ -38,10 +38,12 @@ const NavItems = ({
   handleCloseMenu,
   anchorEl,
 }) => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   if (item === "home") return <NavItem key={item} name={item} link="/" />;
   else if (item === "login") {
+    if (status === "loading") return "Login";
+
     if (!session)
       return <NavItem key={item} name={item} link="/api/auth/signin" />;
 
