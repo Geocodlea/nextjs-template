@@ -4,6 +4,7 @@ import ForwardIcon from "@mui/icons-material/Forward";
 
 import Events from "./Events";
 import ExampleEvents from "./ExampleEvents";
+import ExampleGrid from "./ExampleGrid";
 
 export default async function Home({ searchParams }) {
   return (
@@ -28,6 +29,8 @@ export default async function Home({ searchParams }) {
       <Events searchParams={searchParams} />
 
       <ExampleEvents />
+
+      <ExampleGrid />
     </>
   );
 }

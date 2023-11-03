@@ -12,7 +12,7 @@ const ExampleEvents = async () => {
 
   return (
     <>
-      <Typography variant="h2" fontWeight="bold" mt={16} mb={4}>
+      <Typography variant="h2" fontWeight="bold" mt={16} mb={4} align="center">
         Example Views
       </Typography>
       <Box className={styles.grid}>
