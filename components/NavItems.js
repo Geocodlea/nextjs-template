@@ -92,7 +92,7 @@ const NavItems = ({
         </Menu>
       </ListItem>
     );
-  } else return <NavItem key={item} name={item} link={item} />;
+  } else return <NavItem key={item} name={item} link={`/${item}`} />;
 };
 
 export default NavItems;
