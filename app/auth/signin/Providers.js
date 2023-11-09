@@ -49,7 +49,7 @@ const Providers = ({ providers }) => {
 
   return (
     <Stack spacing={2}>
-      {Object.values(providers).map((provider) => (
+      {Object?.values(providers).map((provider) => (
         <div key={provider.id} style={{ maxWidth: "250px" }}>
           {provider.id === "email" ? (
             <Formik
