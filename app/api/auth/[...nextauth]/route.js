@@ -45,7 +45,8 @@ export const authOptions = {
 
   callbacks: {
     async redirect({ url, baseUrl }) {
-      return `${baseUrl}/`;
+      return url;
+      // return `${baseUrl}/`;
     },
     async session({ session, user }) {
       session.user.role = user.role;

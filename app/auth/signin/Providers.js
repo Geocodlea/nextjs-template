@@ -35,10 +35,6 @@ const Providers = ({ providers }) => {
   const searchParams = useSearchParams();
   const error = searchParams.get("error");
 
-  console.log(providers);
-
-  console.log(Object.values(providers));
-
   if (error)
     return (
       <>
