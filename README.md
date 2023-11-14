@@ -2,7 +2,7 @@
 
 This is a Next.js boilerplate template that provides a solid foundation for building modern web applications. It incorporates the latest technologies and features for a seamless development experience. Below, you'll find an overview of the key components and features included in this template.
 
-[Live Example](https://nextjs-template-geo.netlify.app/)
+## [Live Example](https://nextjs-template-geo.netlify.app/)
 
 ## Features
 
