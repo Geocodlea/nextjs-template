@@ -13,7 +13,11 @@ export default async function Update({ params }) {
     return <h1 className="text-5xl">NOT ALLOWED !!!</h1>;
 
   return (
-    <Paper elevation={24} className={styles.card} sx={{ maxWidth: "600px" }}>
+    <Paper
+      elevation={24}
+      className={styles.card}
+      sx={{ maxWidth: "600px", textAlign: "center" }}
+    >
       <Typography variant="h2">Update Event</Typography>
       <UpdateEvent params={params} />
     </Paper>
