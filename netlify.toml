@@ -1,3 +1,0 @@
-[build]
-  # Run this command during the build process
-  command = "npm run build && node checkDirectory.js"
