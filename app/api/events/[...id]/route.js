@@ -24,8 +24,8 @@ export async function PATCH(request, { params }) {
 
     const buffer = Buffer.from(bytes);
 
-    // Adjust the directory path based on the actual structure on Netlify
-    const directoryPath = path.join(process.cwd(), ".next/uploads/events/");
+    // Use the public directory directly
+    const directoryPath = path.join(process.cwd(), "public/uploads/events/");
     const filePath = path.join(directoryPath, data.image.name);
 
     try {
