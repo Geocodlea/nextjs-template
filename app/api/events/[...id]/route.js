@@ -3,6 +3,8 @@ import Event from "/models/Event";
 import { writeFile } from "fs/promises";
 import { NextResponse } from "next/server";
 
+const fs = require("fs-extra");
+
 export async function PATCH(request, { params }) {
   const formData = await request.formData();
   const data = {};
@@ -16,6 +18,12 @@ export async function PATCH(request, { params }) {
     const bytes = await data.image.arrayBuffer();
     const buffer = Buffer.from(bytes);
     const path = `public/uploads/events/${data.image.name}`;
+
+    // Ensure the directory exists
+    await fs.ensureDir("public/uploads/events/");
+
+    console.log("File path:", path);
+
     await writeFile(path, buffer);
 
     data.image = data.image.name;
