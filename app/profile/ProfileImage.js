@@ -1,13 +1,14 @@
 "use client";
 
 import Image from "next/image";
+import { useSession } from "next-auth/react";
 
 import { Box } from "@mui/material";
 
-import { useSession } from "next-auth/react";
-
 export default function ProfileImage() {
   const { data: session } = useSession();
+
+  const imageUrl = session?.user.image ? session.user.image : "/img/avatar.png";
 
   return (
     <Box
@@ -19,14 +20,8 @@ export default function ProfileImage() {
       }}
     >
       <Image
-        alt="bg"
-        src={
-          session?.user.image
-            ? session.user.image.startsWith("http")
-              ? session.user.image
-              : `/uploads/users/${session.user.image}`
-            : "/img/avatar.png"
-        }
+        alt="profile image"
+        src={imageUrl}
         fill
         sizes="(max-width: 768px) 100vw"
         style={{

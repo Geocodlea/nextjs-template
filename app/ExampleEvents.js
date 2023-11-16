@@ -31,7 +31,7 @@ const ExampleEvents = async () => {
             <Box sx={{ position: "relative", height: "300px" }}>
               <Image
                 alt="bg"
-                src={`/uploads/events/${event.image}`}
+                src={event.image}
                 fill
                 sizes="(max-width: 768px) 100vw"
                 style={{
@@ -103,7 +103,7 @@ const ExampleEvents = async () => {
             <Box sx={{ position: "relative", height: "300px" }}>
               <Image
                 alt="bg"
-                src={`/uploads/events/${event.image}`}
+                src={event.image}
                 fill
                 sizes="(max-width: 768px) 100vw"
                 style={{

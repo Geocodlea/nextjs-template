@@ -21,6 +21,11 @@ const nextConfig = {
         protocol: "https",
         hostname: "**.twimg.com",
       },
+      {
+        protocol: "https",
+        hostname: "storage.googleapis.com",
+        pathname: "/geo_bucket_1/**",
+      },
     ],
   },
 };

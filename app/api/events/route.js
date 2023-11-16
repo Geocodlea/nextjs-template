@@ -1,6 +1,7 @@
 import dbConnect from "/utils/dbConnect";
 import Event from "/models/Event";
-import { writeFile } from "fs/promises";
+import { v4 as uuidv4 } from "uuid";
+import { Storage } from "@google-cloud/storage";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
@@ -14,14 +15,34 @@ export async function POST(request) {
 
   const bytes = await data.image.arrayBuffer();
   const buffer = Buffer.from(bytes);
-  const path = `public/uploads/events/${data.image.name}`;
-  await writeFile(path, buffer);
+
+  // Create a unique filename using uuid
+  const filename = `${uuidv4()}-${data.image.name}`;
+
+  // Set up Google Cloud Storage client
+  const storage = new Storage({
+    projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
+    keyFilename: process.env.GOOGLE_CLOUD_KEY_FILE_PATH,
+  });
+
+  // Specify your Google Cloud Storage bucket name
+  const bucketName = "geo_bucket_1"; // Replace with your actual bucket name
+  const bucket = storage.bucket(bucketName);
+
+  // Specify the GCS object (path) where the file will be stored
+  const gcsObject = bucket.file(`uploads/events/${filename}`);
+
+  // Create a write stream and upload the file to Google Cloud Storage
+  const writeStream = gcsObject.createWriteStream({
+    metadata: { contentType: data.image.type },
+  });
+  writeStream.end(buffer);
+
+  // Update the data with the Google Cloud Storage URL or other relevant information
+  data.image = `https://storage.googleapis.com/${bucketName}/uploads/events/${filename}`;
 
   await dbConnect();
-  const event = new Event({
-    ...data,
-    image: data.image.name,
-  });
+  const event = new Event(data);
   await event.save();
 
   return NextResponse.json({ success: true });
