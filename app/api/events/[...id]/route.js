@@ -3,6 +3,7 @@ import Event from "/models/Event";
 import { writeFile } from "fs/promises";
 import { NextResponse } from "next/server";
 import fs from "fs-extra";
+import path from "path";
 
 export async function PATCH(request, { params }) {
   const formData = await request.formData();
@@ -23,15 +24,16 @@ export async function PATCH(request, { params }) {
 
     const buffer = Buffer.from(bytes);
 
-    const directoryPath = "public/uploads/events/";
-    const path = `${directoryPath}${data.image.name}`;
+    // Adjust the directory path based on the actual structure on Netlify
+    const directoryPath = path.join(process.cwd(), ".next/uploads/events/");
+    const filePath = path.join(directoryPath, data.image.name);
 
     try {
       // Ensure the directory exists
       await fs.ensureDir(directoryPath);
 
       // Write the file
-      await writeFile(path, buffer);
+      await writeFile(filePath, buffer);
       console.log("File written successfully");
 
       data.image = data.image.name;
