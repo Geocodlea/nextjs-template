@@ -14,6 +14,8 @@ export async function PATCH(request, { params }) {
     if (value) data[key] = value;
   }
 
+  console.log("TEST NETLIFY");
+
   if (data.image) {
     const bytes = await data.image.arrayBuffer();
     const buffer = Buffer.from(bytes);
