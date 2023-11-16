@@ -18,14 +18,7 @@ export async function PATCH(request, { params }) {
     const bytes = await data.image.arrayBuffer();
     const buffer = Buffer.from(bytes);
     const path = `public/uploads/events/${data.image.name}`;
-
-    // Ensure the directory exists
-    await fs.ensureDir("public/uploads/events/");
-
-    console.log("File path:", path);
-
     await writeFile(path, buffer);
-
     data.image = data.image.name;
   }
 
