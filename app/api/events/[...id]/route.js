@@ -14,18 +14,32 @@ export async function PATCH(request, { params }) {
     if (value) data[key] = value;
   }
 
-  console.log("TEST NETLIFY");
+  console.log("TEST NETLIFY !!!!!!!!!!!!!!!!!");
 
   if (data.image) {
-    const bytes = await data.image.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    const path = `public/uploads/events/${data.image.name}`;
-    await writeFile(path, buffer);
-    data.image = data.image.name;
+    console.log("File upload started");
+
+    try {
+      const bytes = await data.image.arrayBuffer();
+      console.log("File bytes received");
+
+      const buffer = Buffer.from(bytes);
+      const path = `public/uploads/events/${data.image.name}`;
+
+      await writeFile(path, buffer);
+      console.log("File written successfully");
+
+      data.image = data.image.name;
+    } catch (error) {
+      console.error("Error during file upload:", error);
+      return NextResponse.error("Internal Server Error", 500);
+    }
   }
 
   await dbConnect();
   await Event.updateOne({ _id: params.id }, data);
+
+  console.log("Update operation completed");
 
   return NextResponse.json({ success: true });
 }
