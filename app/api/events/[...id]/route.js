@@ -2,8 +2,7 @@ import dbConnect from "/utils/dbConnect";
 import Event from "/models/Event";
 import { writeFile } from "fs/promises";
 import { NextResponse } from "next/server";
-
-const fs = require("fs-extra");
+import fs from "fs-extra";
 
 export async function PATCH(request, { params }) {
   const formData = await request.formData();
@@ -14,18 +13,24 @@ export async function PATCH(request, { params }) {
     if (value) data[key] = value;
   }
 
-  console.log("TEST NETLIFY !!!!!!!!!!!!!!!!!");
+  console.log("TEST NETLIFY");
 
   if (data.image) {
     console.log("File upload started");
 
+    const bytes = await data.image.arrayBuffer();
+    console.log("File bytes received");
+
+    const buffer = Buffer.from(bytes);
+
+    const directoryPath = "public/uploads/events/";
+    const path = `${directoryPath}${data.image.name}`;
+
     try {
-      const bytes = await data.image.arrayBuffer();
-      console.log("File bytes received");
+      // Ensure the directory exists
+      await fs.ensureDir(directoryPath);
 
-      const buffer = Buffer.from(bytes);
-      const path = `public/uploads/events/${data.image.name}`;
-
+      // Write the file
       await writeFile(path, buffer);
       console.log("File written successfully");
 
