@@ -2,8 +2,6 @@ import dbConnect from "/utils/dbConnect";
 import Event from "/models/Event";
 import { writeFile } from "fs/promises";
 import { NextResponse } from "next/server";
-import fs from "fs-extra";
-import path from "path";
 
 export async function PATCH(request, { params }) {
   const formData = await request.formData();
@@ -14,39 +12,25 @@ export async function PATCH(request, { params }) {
     if (value) data[key] = value;
   }
 
-  console.log("TEST NETLIFY");
+  console.log(data);
 
   if (data.image) {
-    console.log("File upload started");
-
     const bytes = await data.image.arrayBuffer();
-    console.log("File bytes received");
+
+    console.log(bytes);
 
     const buffer = Buffer.from(bytes);
 
-    // Use the public directory directly
-    const directoryPath = path.join(process.cwd(), "public/uploads/events/");
-    const filePath = path.join(directoryPath, data.image.name);
+    console.log(bytes);
 
-    try {
-      // Ensure the directory exists
-      await fs.ensureDir(directoryPath);
+    const path = `public/uploads/events/${data.image.name}`;
+    await writeFile(path, buffer);
 
-      // Write the file
-      await writeFile(filePath, buffer);
-      console.log("File written successfully");
-
-      data.image = data.image.name;
-    } catch (error) {
-      console.error("Error during file upload:", error);
-      return NextResponse.error("Internal Server Error", 500);
-    }
+    data.image = data.image.name;
   }
 
   await dbConnect();
   await Event.updateOne({ _id: params.id }, data);
-
-  console.log("Update operation completed");
 
   return NextResponse.json({ success: true });
 }
