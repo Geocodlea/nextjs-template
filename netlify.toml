@@ -1,2 +1,2 @@
 [build]
-  command = `openssl enc -aes-256-cbc -d -salt -in secrets/google-cloud-key.enc -out secrets/google-cloud-key.json -k $GOOGLE_CLOUD_FILE_ENCRYPTION_KEY && npm run build`
+  command = "openssl enc -aes-256-cbc -d -salt -in secrets/google-cloud-key.enc -out secrets/google-cloud-key.json -k $GOOGLE_CLOUD_FILE_ENCRYPTION_KEY && npm run build"
