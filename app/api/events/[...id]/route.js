@@ -6,6 +6,8 @@ import { NextResponse } from "next/server";
 
 import path from "path";
 
+const keyFilePath = process.env.GOOGLE_CLOUD_KEY_FILE_PATH;
+
 export async function PATCH(request, { params }) {
   const formData = await request.formData();
   const data = {};
@@ -36,7 +38,7 @@ export async function PATCH(request, { params }) {
     // Set up Google Cloud Storage client
     const storage = new Storage({
       projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
-      keyFilename: process.env.GOOGLE_CLOUD_KEY_FILE_PATH,
+      keyFilename: keyFilePath, //process.env.GOOGLE_CLOUD_KEY_FILE_PATH,
     });
 
     // Specify your Google Cloud Storage bucket name
