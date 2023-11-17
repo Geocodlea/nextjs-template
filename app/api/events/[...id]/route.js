@@ -15,9 +15,12 @@ export async function PATCH(request, { params }) {
     if (value) data[key] = value;
   }
 
-  const secretsPath = path.resolve(".next/secrets");
+  // Get the path to the .next directory in the serverless environment
+  const nextPath = path.resolve(".");
+  const secretsPath = path.join(nextPath, ".next", "secrets");
   const secretFilePath = path.join(secretsPath, "secretFile.json");
 
+  console.log("nextPath:", nextPath);
   console.log("secretsPath:", secretsPath);
   console.log("secretFilePath:", secretFilePath);
 
