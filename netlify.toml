@@ -1,2 +1,2 @@
 [build]
-  command = "npm run build && node decode-cloud-storage-key.js"
+  command = "npm run build && node decode-cloud-storage-key.mjs"
