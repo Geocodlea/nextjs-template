@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build && mkdir -p public/secrets && openssl enc -aes-256-cbc -d -salt -in secrets/google-cloud-key.enc -out public/secrets/google-cloud-key.json -k $GOOGLE_CLOUD_FILE_ENCRYPTION_KEY"
+  command = "npm run build && mkdir -p public/secrets && openssl enc -aes-256-cbc -d -salt -in secrets/google-cloud-key.enc -out google-cloud-key.json -k $GOOGLE_CLOUD_FILE_ENCRYPTION_KEY"
 
 [functions]
   included_files = ["secrets/**.json"]
