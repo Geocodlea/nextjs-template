@@ -1,2 +1,4 @@
 [build]
   command = "npm run build && openssl enc -aes-256-cbc -d -salt -in secrets/google-cloud-key.enc -out google-cloud-key.json -k $GOOGLE_CLOUD_FILE_ENCRYPTION_KEY"
+
+  publish = "secrets"
