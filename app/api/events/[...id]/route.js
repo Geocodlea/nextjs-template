@@ -4,8 +4,6 @@ import { v4 as uuidv4 } from "uuid";
 import { Storage } from "@google-cloud/storage";
 import { NextResponse } from "next/server";
 
-import path from "path";
-
 export async function PATCH(request, { params }) {
   const formData = await request.formData();
   const data = {};
@@ -22,13 +20,6 @@ export async function PATCH(request, { params }) {
     // Create a unique filename using uuid
     const filename = `${uuidv4()}-${data.image.name}`;
 
-    const filePath = path.join(
-      process.cwd(),
-      "public",
-      "secrets",
-      "google-cloud-key.json"
-    );
-    console.log("path: ", filePath);
     console.log("env: ", process.env.GOOGLE_CLOUD_KEY_FILE_PATH);
 
     // Set up Google Cloud Storage client
