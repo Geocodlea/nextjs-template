@@ -20,6 +20,13 @@ export async function PATCH(request, { params }) {
     // Create a unique filename using uuid
     const filename = `${uuidv4()}-${data.image.name}`;
 
+    const filePath = path.join(
+      process.cwd(),
+      "public",
+      "secrets",
+      "google-cloud-key.json"
+    );
+    console.log("path: ", filePath);
     console.log("env: ", process.env.GOOGLE_CLOUD_KEY_FILE_PATH);
 
     // Set up Google Cloud Storage client
@@ -27,8 +34,6 @@ export async function PATCH(request, { params }) {
       projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
       keyFilename: process.env.GOOGLE_CLOUD_KEY_FILE_PATH,
     });
-
-    console.log("storage: ", storage);
 
     // Specify your Google Cloud Storage bucket name
     const bucketName = "geo_bucket_1"; // Replace with your actual bucket name
