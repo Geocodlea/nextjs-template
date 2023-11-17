@@ -6,8 +6,6 @@ import { NextResponse } from "next/server";
 
 import path from "path";
 
-const keyFilePath = process.env.GOOGLE_CLOUD_KEY_FILE_PATH;
-
 export async function PATCH(request, { params }) {
   const formData = await request.formData();
   const data = {};
@@ -17,14 +15,8 @@ export async function PATCH(request, { params }) {
     if (value) data[key] = value;
   }
 
-  // Get the path to the .next directory in the serverless environment
-  const nextPath = path.resolve(".");
-  const secretsPath = path.join(nextPath, ".next", "secrets");
-  const secretFilePath = path.join(secretsPath, "secretFile.json");
-
-  console.log("nextPath:", nextPath);
-  console.log("secretsPath:", secretsPath);
-  console.log("secretFilePath:", secretFilePath);
+  const filePath = path.join(process.cwd(), "secrets/google-cloud-key.json");
+  console.log(filePath);
 
   if (data.image) {
     const bytes = await data.image.arrayBuffer();
@@ -33,12 +25,10 @@ export async function PATCH(request, { params }) {
     // Create a unique filename using uuid
     const filename = `${uuidv4()}-${data.image.name}`;
 
-    console.log("env: ", process.env.GOOGLE_CLOUD_KEY_FILE_PATH);
-
     // Set up Google Cloud Storage client
     const storage = new Storage({
       projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
-      keyFilename: keyFilePath, //process.env.GOOGLE_CLOUD_KEY_FILE_PATH,
+      keyFilename: process.env.GOOGLE_CLOUD_KEY_FILE_PATH,
     });
 
     // Specify your Google Cloud Storage bucket name
