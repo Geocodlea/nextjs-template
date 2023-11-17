@@ -4,6 +4,8 @@ import { v4 as uuidv4 } from "uuid";
 import { Storage } from "@google-cloud/storage";
 import { NextResponse } from "next/server";
 
+import path from "path";
+
 export async function PATCH(request, { params }) {
   const formData = await request.formData();
   const data = {};
@@ -12,6 +14,12 @@ export async function PATCH(request, { params }) {
   for (const [key, value] of formData.entries()) {
     if (value) data[key] = value;
   }
+
+  const secretsPath = path.resolve(".next/secrets");
+  const secretFilePath = path.join(secretsPath, "secretFile.json");
+
+  console.log("secretsPath:", secretsPath);
+  console.log("secretFilePath:", secretFilePath);
 
   if (data.image) {
     const bytes = await data.image.arrayBuffer();
