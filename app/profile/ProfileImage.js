@@ -8,8 +8,6 @@ import { Box } from "@mui/material";
 export default function ProfileImage() {
   const { data: session } = useSession();
 
-  const imageUrl = session?.user.image ? session.user.image : "/img/avatar.png";
-
   return (
     <Box
       sx={{
@@ -21,7 +19,7 @@ export default function ProfileImage() {
     >
       <Image
         alt="profile image"
-        src={imageUrl}
+        src={session?.user.image ? session.user.image : "/img/avatar.png"}
         fill
         sizes="(max-width: 768px) 100vw"
         style={{
