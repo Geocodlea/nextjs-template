@@ -4,9 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Storage } from "@google-cloud/storage";
 import { NextResponse } from "next/server";
 
-export async function PATCH(request, context) {
-  console.log(context);
-
+export async function PATCH(request, { params }) {
   const formData = await request.formData();
   const data = {};
 
