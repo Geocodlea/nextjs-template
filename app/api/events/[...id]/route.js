@@ -13,6 +13,8 @@ export async function PATCH(request, { params }) {
     if (value) data[key] = value;
   }
 
+  console.log(process.env.GOOGLE_CLOUD_PRIVATE_KEY);
+
   if (data.image) {
     const bytes = await data.image.arrayBuffer();
     const buffer = Buffer.from(bytes);
