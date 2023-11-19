@@ -13,8 +13,6 @@ export async function PATCH(request, { params }) {
     if (value) data[key] = value;
   }
 
-  console.log(process.env.GOOGLE_CLOUD_CLIENT_EMAIL);
-
   if (data.image) {
     const bytes = await data.image.arrayBuffer();
     const buffer = Buffer.from(bytes);
@@ -28,7 +26,7 @@ export async function PATCH(request, { params }) {
       // keyFilename: process.env.GOOGLE_CLOUD_KEY_FILE_PATH,
       credentials: {
         client_email: process.env.GOOGLE_CLOUD_CLIENT_EMAIL,
-        private_key: process.env.GOOGLE_CLOUD_PRIVATE_KEY.replace(/\\n/g, "\n"),
+        private_key: process.env.GOOGLE_CLOUD_PRIVATE_KEY,
       },
     });
 
