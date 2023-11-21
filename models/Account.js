@@ -10,7 +10,6 @@ global.models.Account =
     provider: { type: String },
     type: { type: String },
     providerAccountId: { type: String },
-    userID: { type: Schema.Types.Mixed },
   });
 
 export default global.models.Account;

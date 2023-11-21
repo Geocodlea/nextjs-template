@@ -39,10 +39,10 @@ export default function DeleteAccount() {
         // Check for non-successful HTTP status codes
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      setAlert({ text: "Event deleted successfully", severity: "success" });
+      setAlert({ text: "Account deleted successfully", severity: "success" });
     } catch (error) {
       // Handle any errors that occurred during the fetch operation
-      setAlert({ text: "Error deleting event", severity: "error" });
+      setAlert({ text: "Error deleting account", severity: "error" });
     }
 
     signOut();
