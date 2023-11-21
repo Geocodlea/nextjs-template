@@ -10,6 +10,7 @@ global.models.Account =
     provider: { type: String },
     type: { type: String },
     providerAccountId: { type: String },
+    userId: { type: mongoose.Types.Mixed },
   });
 
 export default global.models.Account;
