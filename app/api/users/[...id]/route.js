@@ -1,6 +1,8 @@
 import dbConnect from "/utils/dbConnect";
 import User from "/models/User";
 import Account from "/models/Account";
+import mongoose from "mongoose";
+
 import { v4 as uuidv4 } from "uuid";
 import { Storage } from "@google-cloud/storage";
 import { NextResponse } from "next/server";
@@ -65,7 +67,12 @@ export async function PUT(request, { params }) {
 export async function DELETE(request, { params }) {
   await dbConnect();
   await User.deleteOne({ _id: params.id });
-  await Account.deleteOne({ userId: params.id });
+
+  const { ObjectId } = mongoose.Types;
+  // Convert userId to ObjectId
+  const userId = new ObjectId(params.id);
+
+  await Account.deleteOne({ userId });
 
   return NextResponse.json({ success: true });
 }
