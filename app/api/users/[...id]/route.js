@@ -66,8 +66,7 @@ export async function PUT(request, { params }) {
 export async function DELETE(request, { params }) {
   await dbConnect();
   await User.deleteOne({ _id: params.id });
-
-  await Account.deleteOne({ userId: params.id });
+  await Account.deleteOne({ userId: params.id[0] });
 
   return NextResponse.json({ success: true });
 }
