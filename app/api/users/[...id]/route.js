@@ -1,6 +1,7 @@
 import dbConnect from "/utils/dbConnect";
 import User from "/models/User";
 import Account from "/models/Account";
+import mongoose from "mongoose";
 
 import { v4 as uuidv4 } from "uuid";
 import { Storage } from "@google-cloud/storage";
@@ -66,7 +67,9 @@ export async function PUT(request, { params }) {
 export async function DELETE(request, { params }) {
   await dbConnect();
   await User.deleteOne({ _id: params.id });
-  await Account.deleteOne({ userId: params.id[0] });
+
+  const userId = new mongoose.Types.ObjectId(params.id[0]);
+  await Account.deleteOne({ userId });
 
   return NextResponse.json({ success: true });
 }
