@@ -22,7 +22,10 @@ export async function POST(request) {
   // Set up Google Cloud Storage client
   const storage = new Storage({
     projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
-    keyFilename: process.env.GOOGLE_CLOUD_KEY_FILE_PATH,
+    credentials: {
+      client_email: process.env.GOOGLE_CLOUD_CLIENT_EMAIL,
+      private_key: process.env.GOOGLE_CLOUD_PRIVATE_KEY.replace(/\\n/g, "\n"),
+    },
   });
 
   // Specify your Google Cloud Storage bucket name
