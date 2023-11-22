@@ -43,7 +43,18 @@ export async function PATCH(request, { params }) {
     const writeStream = gcsObject.createWriteStream({
       metadata: { contentType: data.image.type },
     });
+
+    // Return a promise that resolves when the file upload is complete
+    const uploadPromise = new Promise((resolve, reject) => {
+      writeStream.on("finish", resolve);
+      writeStream.on("error", reject);
+    });
+
+    // Pipe the buffer into the write stream
     writeStream.end(buffer);
+
+    // Wait for the file upload to complete
+    await uploadPromise;
 
     // Update the data with the Google Cloud Storage URL or other relevant information
     data.image = `https://storage.googleapis.com/${bucketName}/uploads/users/${filename}`;
