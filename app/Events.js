@@ -14,6 +14,21 @@ import AlertMsg from "../components/AlertMsg";
 
 import { redirect } from "next/navigation";
 
+import { Storage } from "@google-cloud/storage";
+
+// Set up Google Cloud Storage client
+const storage = new Storage({
+  projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
+  credentials: {
+    client_email: process.env.GOOGLE_CLOUD_CLIENT_EMAIL,
+    private_key: process.env.GOOGLE_CLOUD_PRIVATE_KEY.replace(/\\n/g, "\n"),
+  },
+});
+
+// Google Cloud Storage bucket name
+const bucketName = "geo_bucket_1";
+const bucket = storage.bucket(bucketName);
+
 const Events = async ({ searchParams }) => {
   const session = await getServerSession(authOptions);
   const alert = { text: searchParams.text, severity: searchParams.severity };
@@ -25,6 +40,15 @@ const Events = async ({ searchParams }) => {
     "use server";
 
     try {
+      // Find gcs event image and delete it, before deleting the event
+      const event = await Event.findOne({ _id: id });
+
+      // Trim de full URL, to get only the bucket
+      const imgURL = event.image.slice(44);
+
+      const gcsObject = bucket.file(imgURL);
+      await gcsObject.delete();
+
       await Event.deleteOne({ _id: id });
     } catch (error) {
       redirect(`/?text=Error deleting event&severity=error`);

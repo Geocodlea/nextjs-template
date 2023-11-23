@@ -28,11 +28,11 @@ export async function POST(request) {
     },
   });
 
-  // Specify your Google Cloud Storage bucket name
+  // Google Cloud Storage bucket name
   const bucketName = "geo_bucket_1"; // Replace with your actual bucket name
   const bucket = storage.bucket(bucketName);
 
-  // Specify the GCS object (path) where the file will be stored
+  // GCS object (path) where the file will be stored
   const gcsObject = bucket.file(`uploads/events/${filename}`);
 
   // Create a write stream and upload the file to Google Cloud Storage
@@ -41,7 +41,7 @@ export async function POST(request) {
   });
   writeStream.end(buffer);
 
-  // Update the data with the Google Cloud Storage URL or other relevant information
+  // Update the data with the Google Cloud Storage URL
   data.image = `https://storage.googleapis.com/${bucketName}/uploads/events/${filename}`;
 
   await dbConnect();

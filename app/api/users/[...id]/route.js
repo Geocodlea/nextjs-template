@@ -7,6 +7,19 @@ import { v4 as uuidv4 } from "uuid";
 import { Storage } from "@google-cloud/storage";
 import { NextResponse } from "next/server";
 
+// Set up Google Cloud Storage client
+const storage = new Storage({
+  projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
+  credentials: {
+    client_email: process.env.GOOGLE_CLOUD_CLIENT_EMAIL,
+    private_key: process.env.GOOGLE_CLOUD_PRIVATE_KEY.replace(/\\n/g, "\n"),
+  },
+});
+
+// Google Cloud Storage bucket name
+const bucketName = "geo_bucket_1";
+const bucket = storage.bucket(bucketName);
+
 export async function PATCH(request, { params }) {
   const formData = await request.formData();
   const data = {};
@@ -23,21 +36,8 @@ export async function PATCH(request, { params }) {
     // Create a unique filename using uuid
     const filename = `${uuidv4()}-${data.image.name}`;
 
-    // Set up Google Cloud Storage client
-    const storage = new Storage({
-      projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
-      credentials: {
-        client_email: process.env.GOOGLE_CLOUD_CLIENT_EMAIL,
-        private_key: process.env.GOOGLE_CLOUD_PRIVATE_KEY.replace(/\\n/g, "\n"),
-      },
-    });
-
-    // Specify your Google Cloud Storage bucket name
-    const bucketName = "geo_bucket_1"; // Replace with your actual bucket name
-    const bucket = storage.bucket(bucketName);
-
-    // Specify the GCS object (path) where the file will be stored
-    const gcsObject = bucket.file(`uploads/users/${filename}`);
+    // GCS object (path) where the file will be stored
+    const gcsObject = bucket.file(`uploads/users/${params.id}/${filename}`);
 
     // Create a write stream and upload the file to Google Cloud Storage
     const writeStream = gcsObject.createWriteStream({
@@ -56,8 +56,8 @@ export async function PATCH(request, { params }) {
     // Wait for the file upload to complete
     await uploadPromise;
 
-    // Update the data with the Google Cloud Storage URL or other relevant information
-    data.image = `https://storage.googleapis.com/${bucketName}/uploads/users/${filename}`;
+    // Update the data with the Google Cloud Storage URL
+    data.image = `https://storage.googleapis.com/${bucketName}/uploads/users/${params.id}/${filename}`;
   }
 
   await dbConnect();
@@ -81,6 +81,18 @@ export async function DELETE(request, { params }) {
 
   const userId = new mongoose.Types.ObjectId(params.id[0]);
   await Account.deleteOne({ userId });
+
+  // List all files for deleted user
+  const [files] = await bucket.getFiles({
+    prefix: `uploads/users/${params.id}/`,
+  });
+
+  // Delete each file
+  await Promise.all(
+    files.map(async (file) => {
+      await file.delete();
+    })
+  );
 
   return NextResponse.json({ success: true });
 }
