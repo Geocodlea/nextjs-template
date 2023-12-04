@@ -1,6 +1,15 @@
+import Cors from "micro-cors";
 import { NextResponse } from "next/server";
 
+const cors = Cors({
+  allowedMethods: ["GET", "POST", "PUT", "DELETE"],
+  origin: "https://learn.generatiatech.ro",
+});
+
 export async function POST(request) {
+  // Use cors middleware
+  await cors(request);
+
   const data = await request.json();
 
   console.log(data);
