@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
-  console.log(request.body);
+  const data = await json(request.body);
+
+  console.log(data);
 
   try {
-    const { student, field, value } = JSON.parse(request.body);
+    const { student, field, value } = data;
 
     const response = await fetch(
       `https://api.xperiencify.io/api/public/student/customfield/?api_key=${process.env.GT_SHOP_API_KEY}`,
