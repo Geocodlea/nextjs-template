@@ -22,17 +22,18 @@ export async function POST(request) {
 
     // Create a transporter with your email service provider's details
     const transporter = nodemailer.createTransport({
-      service: "Gmail",
+      host: process.env.GT_MAIL_HOST,
+      port: process.env.GT_MAIL_PORT,
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user: process.env.GT_MAIL_USERNAME,
+        pass: process.env.GT_MAIL_PASSWORD,
       },
     });
 
     // Send the email
     await transporter.sendMail({
-      from: "GT Shop <noreply@gmail.com>",
-      to: "geocodlea@yahoo.com",
+      from: "GT Shop <hello@generatiatech.ro>",
+      to: data.student,
       subject: "COMANDA REWARD SHOP",
       text: `Comanda trimisa de ${data.student}`,
     });
