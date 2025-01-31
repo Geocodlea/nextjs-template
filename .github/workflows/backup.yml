@@ -14,8 +14,8 @@ jobs:
 
       - name: Install MongoDB Tools
         run: |
-          sudo apt-get update
-          sudo apt-get install -y mongodb-org-tools
+          wget -qO- https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu2004-x86_64-100.9.4.tgz | tar -xz
+          sudo mv mongodb-database-tools-*/bin/* /usr/local/bin/
 
       - name: Run MongoDB Backup
         env:
