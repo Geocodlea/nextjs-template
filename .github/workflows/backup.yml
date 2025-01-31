@@ -39,7 +39,7 @@ jobs:
             "type": "service_account",
             "project_id": "'"$GOOGLE_CLOUD_PROJECT_ID"'",
             "client_email": "'"$GOOGLE_CLOUD_CLIENT_EMAIL"'",
-            "private_key": "'"$(echo "$GOOGLE_CLOUD_PRIVATE_KEY" | sed 's/\\n/\n/g')"'" 
+            "private_key": "'"$GOOGLE_CLOUD_PRIVATE_KEY"'"
           }' > gcs-key.json
           gcloud auth activate-service-account --key-file=gcs-key.json
           gsutil cp $BACKUP_FILE gs://$GCS_BUCKET/mongo_$TIMESTAMP.gz
