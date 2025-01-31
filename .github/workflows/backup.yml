@@ -22,12 +22,10 @@ jobs:
           MONGO_URL: ${{ secrets.MONGO_URL }}
         run: |
           TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
-          echo "Generated Timestamp: $TIMESTAMP"  # Debugging step
-          BACKUP_FILE="backup_$TIMESTAMP.gz"  # Backup file name with timestamp
-          echo "Backup file name: $BACKUP_FILE"  # Debugging step
+          BACKUP_FILE="backup_$TIMESTAMP.gz"
+          echo "Backup file name: $BACKUP_FILE"
           mongodump --uri="$MONGO_URL" --archive=$BACKUP_FILE --gzip
-          ls -lh  # List files to verify the backup file exists
-          echo "Backup file created: $BACKUP_FILE"  # Debugging step
+          ls -lh
 
       - name: Upload to Google Cloud Storage
         env:
@@ -36,12 +34,12 @@ jobs:
           GOOGLE_CLOUD_CLIENT_EMAIL: ${{ secrets.GOOGLE_CLOUD_CLIENT_EMAIL }}
           GOOGLE_CLOUD_PRIVATE_KEY: ${{ secrets.GOOGLE_CLOUD_PRIVATE_KEY }}
         run: |
+          # Format private key by replacing newline characters with \n
           echo '{
             "type": "service_account",
             "project_id": "'"$GOOGLE_CLOUD_PROJECT_ID"'",
             "client_email": "'"$GOOGLE_CLOUD_CLIENT_EMAIL"'",
-            "private_key": "'"$GOOGLE_CLOUD_PRIVATE_KEY"'"
+            "private_key": "'"$(echo "$GOOGLE_CLOUD_PRIVATE_KEY" | sed 's/\\n/\n/g')"'" 
           }' > gcs-key.json
           gcloud auth activate-service-account --key-file=gcs-key.json
-          echo "Uploading backup file to GCS"  # Debugging step
           gsutil cp $BACKUP_FILE gs://$GCS_BUCKET/mongo_$TIMESTAMP.gz
