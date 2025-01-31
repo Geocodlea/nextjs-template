@@ -22,9 +22,12 @@ jobs:
           MONGO_URL: ${{ secrets.MONGO_URL }}
         run: |
           TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
-          echo "Timestamp: $TIMESTAMP"  # Debugging step
-          mongodump --uri="$MONGO_URL" --archive=backup_$TIMESTAMP.gz --gzip
+          echo "Generated Timestamp: $TIMESTAMP"  # Debugging step
+          BACKUP_FILE="backup_$TIMESTAMP.gz"  # Backup file name with timestamp
+          echo "Backup file name: $BACKUP_FILE"  # Debugging step
+          mongodump --uri="$MONGO_URL" --archive=$BACKUP_FILE --gzip
           ls -lh  # List files to verify the backup file exists
+          echo "Backup file created: $BACKUP_FILE"  # Debugging step
 
       - name: Upload to Google Cloud Storage
         env:
@@ -41,4 +44,4 @@ jobs:
           }' > gcs-key.json
           gcloud auth activate-service-account --key-file=gcs-key.json
           echo "Uploading backup file to GCS"  # Debugging step
-          gsutil cp backup_$TIMESTAMP.gz gs://$GCS_BUCKET/mongo_$TIMESTAMP.gz
+          gsutil cp $BACKUP_FILE gs://$GCS_BUCKET/mongo_$TIMESTAMP.gz
