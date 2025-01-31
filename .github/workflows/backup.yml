@@ -23,7 +23,6 @@ jobs:
         run: |
           TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
           mongodump --uri="$MONGO_URL" --archive=backup_$TIMESTAMP.gz --gzip
-          mv backup_$TIMESTAMP.gz backup.gz
 
       - name: Upload to Google Cloud Storage
         env:
@@ -39,4 +38,4 @@ jobs:
             "private_key": "'"$GOOGLE_CLOUD_PRIVATE_KEY"'"
           }' > gcs-key.json
           gcloud auth activate-service-account --key-file=gcs-key.json
-          gsutil cp backup.gz gs://$GCS_BUCKET/mongo_$TIMESTAMP.gz
+          gsutil cp backup_$TIMESTAMP.gz gs://$GCS_BUCKET/mongo_$TIMESTAMP.gz
