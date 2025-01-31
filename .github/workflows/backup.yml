@@ -21,11 +21,7 @@ jobs:
         env:
           MONGO_URL: ${{ secrets.MONGO_URL }}
         run: |
-          TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
-          BACKUP_FILE="backup_$TIMESTAMP.gz"
-          echo "Backup file name: $BACKUP_FILE"
-          mongodump --uri="$MONGO_URL" --archive=$BACKUP_FILE --gzip
-          ls -lh
+          mongodump --uri="$MONGO_URL" --archive=backup.gz --gzip
 
       - name: Upload to Google Cloud Storage
         env:
@@ -34,7 +30,7 @@ jobs:
           GOOGLE_CLOUD_CLIENT_EMAIL: ${{ secrets.GOOGLE_CLOUD_CLIENT_EMAIL }}
           GOOGLE_CLOUD_PRIVATE_KEY: ${{ secrets.GOOGLE_CLOUD_PRIVATE_KEY }}
         run: |
-          # Format private key by replacing newline characters with \n
+          TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
           echo '{
             "type": "service_account",
             "project_id": "'"$GOOGLE_CLOUD_PROJECT_ID"'",
@@ -42,4 +38,4 @@ jobs:
             "private_key": "'"$GOOGLE_CLOUD_PRIVATE_KEY"'"
           }' > gcs-key.json
           gcloud auth activate-service-account --key-file=gcs-key.json
-          gsutil cp $BACKUP_FILE gs://$GCS_BUCKET/mongo_$TIMESTAMP.gz
+          gsutil cp backup.gz gs://$GCS_BUCKET/mongo_$TIMESTAMP.gz
