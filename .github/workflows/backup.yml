@@ -1,0 +1,35 @@
+name: MongoDB Backup
+
+on:
+  schedule:
+    - cron: "0 3 * * *" # Runs daily at midnight UTC
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install MongoDB Tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mongodb-org-tools
+
+      - name: Run MongoDB Backup
+        env:
+          MONGO_URL: ${{ secrets.MONGO_URL }}
+        run: |
+          TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
+          mongodump --uri="$MONGO_URL" --archive=backup_$TIMESTAMP.gz --gzip
+          mv backup_$TIMESTAMP.gz backup.gz
+
+      - name: Upload to Google Cloud Storage
+        env:
+          GCS_BUCKET: ${{ secrets.GCS_BUCKET }}
+          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+        run: |
+          echo "$GOOGLE_CREDENTIALS" > gcs-key.json
+          gcloud auth activate-service-account --key-file=gcs-key.json
+          gsutil cp backup.gz gs://$GCS_BUCKET/mongo_$TIMESTAMP.gz
